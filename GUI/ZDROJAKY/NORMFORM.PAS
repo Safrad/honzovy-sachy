@@ -29,11 +29,12 @@ var
 implementation
 
 {$R *.DFM}
- uses Vypisova;
-procedure TMysNormForm.FormClose(Sender: TObject;
-  var Action: TCloseAction);
+
+uses Vypisova;
+
+procedure TMysNormForm.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
- Vypisovac.Cfg.mnPovoleno:=false;
+  Vypisovac.Cfg.mnPovoleno := false;
 end;
 
 end.

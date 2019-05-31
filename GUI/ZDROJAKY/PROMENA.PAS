@@ -21,63 +21,69 @@ type
   private
     { Private declarations }
   public
-    prm:integer;
-    bily:boolean;
+    prm: integer;
+    bily: boolean;
   end;
 
 var
   PromenaDlg: TPromenaDlg;
 
 implementation
- uses Schabstr;
+
+uses Schabstr;
 {$R *.DFM}
 
 procedure TPromenaDlg.Image4Click(Sender: TObject);
 begin
- prm:=5;close;
+  prm := 5;
+  close;
 end;
 
 procedure TPromenaDlg.Image3Click(Sender: TObject);
 begin
- prm:=4;close;
+  prm := 4;
+  close;
 end;
 
 procedure TPromenaDlg.Image2Click(Sender: TObject);
 begin
- prm:=3;close;
+  prm := 3;
+  close;
 end;
 
 procedure TPromenaDlg.Image1Click(Sender: TObject);
 begin
- prm:=2;close;
+  prm := 2;
+  close;
 end;
 
 procedure TPromenaDlg.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
- if not bily then prm:=-prm;
+  if not bily then
+    prm := -prm;
 end;
 
 procedure TPromenaDlg.FormActivate(Sender: TObject);
 begin
- kresli_pole(true,false,0,0,image1.canvas);
- kresli_pole(false,false,0,0,image2.canvas);
- kresli_pole(true,false,0,0,image3.canvas);
- kresli_pole(false,false,0,0,image4.canvas);
- if bily then
+  kresli_pole(true, false, 0, 0, Image1.canvas);
+  kresli_pole(false, false, 0, 0, Image2.canvas);
+  kresli_pole(true, false, 0, 0, Image3.canvas);
+  kresli_pole(false, false, 0, 0, Image4.canvas);
+  if bily then
   begin
-   kresli_figuru(2,2,2,image1.canvas);
-   kresli_figuru(3,2,2,image2.canvas);
-   kresli_figuru(4,2,2,image3.canvas);
-   kresli_figuru(5,2,2,image4.canvas);
+    kresli_figuru(2, 2, 2, Image1.canvas);
+    kresli_figuru(3, 2, 2, Image2.canvas);
+    kresli_figuru(4, 2, 2, Image3.canvas);
+    kresli_figuru(5, 2, 2, Image4.canvas);
   end
- else
+  else
   begin
-   kresli_figuru(-2,2,2,image1.canvas);
-   kresli_figuru(-3,2,2,image2.canvas);
-   kresli_figuru(-4,2,2,image3.canvas);
-   kresli_figuru(-5,2,2,image4.canvas);
+    kresli_figuru(-2, 2, 2, Image1.canvas);
+    kresli_figuru(-3, 2, 2, Image2.canvas);
+    kresli_figuru(-4, 2, 2, Image3.canvas);
+    kresli_figuru(-5, 2, 2, Image4.canvas);
   end;
- prm:=5;{Kdyby zm·Ëknul alt F4...}
+  prm := 5; { Kdyby zm·Ëknul alt F4... }
 end;
 
 end.

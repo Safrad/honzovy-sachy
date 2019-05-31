@@ -41,10 +41,12 @@ var
 implementation
 
 {$R *.DFM}
- uses vypisova;
+
+uses vypisova;
+
 procedure TMysDopForm.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
- Vypisovac.cfg.mdPovoleno:=false;
+  Vypisovac.cfg.mdPovoleno := false;
 end;
 
 end.
