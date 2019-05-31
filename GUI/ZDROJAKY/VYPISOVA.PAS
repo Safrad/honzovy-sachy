@@ -11,7 +11,7 @@ TVypisovac=class
   f:TextFile;
   otevren:boolean;
   constructor create(nMemo:TMemo);
-  destructor destroy;
+  destructor Destroy; override;
   procedure ZavriSoubor;
   procedure SouborDlg;
   procedure Prepis(co:string);

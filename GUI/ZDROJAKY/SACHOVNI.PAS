@@ -51,8 +51,8 @@ property cerny:thrac read fcerny write setcerny;
    procedure predvedrychle;
    procedure predvedtahy(var t:ttahy);
    procedure predvedhp;
-   destructor destroy;override;
-   procedure nova_hra(var nPozice:TPozice);
+   destructor Destroy;override;
+   procedure nova_hra(const nPozice:TPozice);
    procedure uloz;
    procedure ulozjako;
    procedure otevri;
@@ -600,7 +600,8 @@ procedure cekej(ms:longint);
   while gettickcount<t+ms do;
  end;
 Procedure TSachovnice.NactiAlgCfg(b:boolean);
- var f:file;w:word;
+ var f:file;
+  w:LongWord;
  begin
   if b then assign(f,JS_BAlgCfg) else assign(f,JS_CAlgCfg);
   {$I-}
@@ -1112,7 +1113,7 @@ destructor TSachovnice.destroy;
   doneppartie(partie);
   inherited destroy;
  end;
-procedure tsachovnice.nova_hra(var nPozice:TPozice);
+procedure tsachovnice.nova_hra(const nPozice:TPozice);
  begin
   ZastavMysleniDopredu;
   doneppartie(partie);

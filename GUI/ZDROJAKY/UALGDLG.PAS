@@ -4,7 +4,7 @@ interface
 
 uses
   SysUtils, WinTypes, WinProcs, Messages, Classes, Graphics, Controls,
-  Forms, Dialogs, Grids, TabNotBk, StdCtrls, CoTy;
+  Forms, Dialogs, Grids, TabNotBk, StdCtrls, CoTy, Vcl.ComCtrls;
 function VyhodnotEdit(var kam:integer;co:TEdit):boolean;
 type
   TAlgDlg = class(TForm)
@@ -83,9 +83,9 @@ type
   public
    platne,JsemBily:boolean;
    algcfg:TAlgCfg;
-   procedure init(var kym:talgcfg);
-   procedure InitOstatni(var kym:talgcfg);
-   procedure InitPesce(var kym:talgcfg);
+   procedure init(const kym:talgcfg);
+   procedure InitOstatni(const kym:talgcfg);
+   procedure InitPesce(const kym:talgcfg);
    function vyhodnot:boolean;
   end;
 
@@ -95,7 +95,7 @@ var
 implementation
  uses form;
 {$R *.DFM}
-procedure InitStringGrid8x8(var cim:THodnoty64;koho:tstringgrid);
+procedure InitStringGrid8x8(const cim:THodnoty64;koho:tstringgrid);
  var i,j:integer;
  begin
   for i:=0 to 7 do
@@ -230,7 +230,7 @@ function TalgDlg.vyhodnot:boolean;
   if not VyhodnotEdit(AlgCfg.DoprHorsiTahy,Edit21) then result:=false;
   AlgCfg.MysletDopredu:=Checkbox2.checked;
  end;
-procedure TAlgDlg.InitPesce(var kym:talgcfg);
+procedure TAlgDlg.InitPesce(const kym:talgcfg);
  begin
   edit6.text:=inttostr(kym.Dvojpech);
   edit7.text:=inttostr(kym.Izolant);
@@ -240,7 +240,7 @@ procedure TAlgDlg.InitPesce(var kym:talgcfg);
   edit14.text:=inttostr(kym.VedleKolegy);
   initStringGridPesci(algcfg,stringgrid4);
  end;
-procedure TAlgDlg.InitOstatni(var kym:talgcfg);
+procedure TAlgDlg.InitOstatni(const kym:talgcfg);
  begin
   edit1.text:=inttostr(kym.cenyfigur[1]);
   edit2.text:=inttostr(kym.cenyfigur[2]);
@@ -260,7 +260,7 @@ procedure TAlgDlg.InitOstatni(var kym:talgcfg);
   edit20.text:=inttostr(kym.NormHorsiTahy);
   edit21.text:=inttostr(kym.DoprHorsiTahy);
  end;
-procedure TAlgDlg.init(var kym:talgcfg);
+procedure TAlgDlg.init(const kym:talgcfg);
  begin
   algcfg:=kym;
   initOstatni(algcfg);

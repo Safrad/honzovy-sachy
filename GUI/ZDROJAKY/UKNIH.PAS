@@ -18,7 +18,6 @@ interface
   private
    Procedure SmazKnihStrom;
     {Dealokuje pamìt, smaže své údaje.}
-   Destructor Destroy;
   public
    Zmeneno:boolean;
    KnihStrom:PKnihStrom;
@@ -26,6 +25,7 @@ interface
    function PocetPozic:LongInt;
    function HloubkaStromu:LongInt;
    Constructor Create;
+   Destructor Destroy; override;
    Procedure PridejData(var Data:TKnihData);
     {Pøidá pozici s údaji do knihovny. Je-li už pozice v knihovnì,
      pøepíše se.}

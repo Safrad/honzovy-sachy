@@ -192,7 +192,6 @@ begin
  Close
 end;
 procedure TVypisCfgForm.Button1Click(Sender: TObject);
-var zapor:boolean;
 begin
  if vyhodnot then
   begin

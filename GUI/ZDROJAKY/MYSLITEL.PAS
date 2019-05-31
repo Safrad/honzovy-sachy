@@ -45,7 +45,7 @@ TMezivypocet=class
   Inteligentnì znamená, že pokud tam nejsou, tak rozumnì doplní údaje sám.
    Hloubka a I budou 0, tahy budou platné tahy a Cena hodnota Pozice}
  procedure SmazSeznam;
- destructor destroy;override;
+ destructor Destroy;override;
 end;
 TMyslitel=class
  private
@@ -85,7 +85,7 @@ TMyslitel=class
   function MusimKoncit:boolean;
   function Alfa_Beta(Alfa,Beta:LongInt;hloubka:integer;
            var dojeto:boolean; HloubkaRekurze:Integer;Styl:TStyl;
-           var pocitam,Nejlepsi:String):longint;
+           var pocitam,Nejlepsi:ShortString):longint;
 {Alfa-beta metoda do zadané hloubky s dopoètem do tiché pozice
  s kaskádovitým prùchodem a se zapamatováváním hodnot tahù vypoètených až
  do konce.}
@@ -95,12 +95,12 @@ TMyslitel=class
  s kaskádovitým prùchodem a se zapamatováváním hodnot tahù vypoètených až
  do tichého konce.}
   Procedure globBIterace(var MeziData:TMeziData; HorsiTahy:LongInt;
-                         Styl:TStyl; var pocitam,Nejlepsi:String);
+                         Styl:TStyl; var pocitam,Nejlepsi:ShortString);
   Procedure globCIterace(var MeziData:TMeziData;  HorsiTahy:LongInt;
-                          Styl:TStyl; var pocitam,Nejlepsi:String);
-  Procedure VypisVariantu(Tah1:TTah1; Var Pocitam:String;PocPos:Byte;
+                          Styl:TStyl; var pocitam,Nejlepsi:ShortString);
+  Procedure VypisVariantu(Tah1:TTah1; Var Pocitam:ShortString;PocPos:Byte;
     Styl:TStyl; Hloubka:Integer);
-  Procedure VypisNejlepsi(Tah1:TTah1;Var Nejlepsi:String; Styl:TStyl);
+  Procedure VypisNejlepsi(Tah1:TTah1;Var Nejlepsi:ShortString; Styl:TStyl);
  public
   MyslimDopredu,Myslim:boolean;{Stav}
   CasNaTah:LongInt;
@@ -336,7 +336,7 @@ procedure TMyslitel.MysliOTahDopredu(var npozice:tpozice; npartie:ppartie);
   T2:TTah2;
   MeziDataMoje:TMeziData;
   PomHloubka,K,Dobrych:Integer;
-  Pocitam,Nejlepsi:String;
+  Pocitam,Nejlepsi:ShortString;
   label SkoroKonec;
   begin
    Pocitam:='';
@@ -471,7 +471,7 @@ procedure TMyslitel.MysliOTahDopredu(var npozice:tpozice; npartie:ppartie);
    postmessage(form1.handle,wm_Zavolej,0,longint(@AkceKonecDopredu));
   MyslimDopredu:=False;
  end;
-Procedure TMyslitel.VypisVariantu(Tah1:TTah1; Var Pocitam:String;
+Procedure TMyslitel.VypisVariantu(Tah1:TTah1; Var Pocitam:ShortString;
                PocPos:Byte; Styl:TStyl; Hloubka:Integer);
  begin
    {<Bìžné výpisy>}
@@ -479,28 +479,28 @@ Procedure TMyslitel.VypisVariantu(Tah1:TTah1; Var Pocitam:String;
      Normalni:
        if Vypisovac.Cfg.mnPovoleno and (Vypisovac.Cfg.mnpHloubka>=Hloubka) then
         begin
-         Pocitam[0]:=char(PocPos);
+         Pocitam[0]:=AnsiChar(PocPos);
          Pocitam:=Pocitam+' '+TTah1ToStr(Tah1,Pozice);
          MysNormForm.Label6.Caption:=Pocitam;
         end;
      OnDopredu:
        if Vypisovac.Cfg.mdPovoleno and (Vypisovac.Cfg.mdpHloubka>=Hloubka) then
         begin
-         Pocitam[0]:=char(PocPos);
+         Pocitam[0]:=AnsiChar(PocPos);
          Pocitam:=Pocitam+' '+TTah1ToStr(Tah1 ,Pozice);
          MysDopForm.Label7.Caption:=Pocitam;
         end;
      JaDopredu:
        if Vypisovac.Cfg.mdPovoleno and (Vypisovac.Cfg.mdpHloubka>=Hloubka) then
         begin
-         Pocitam[0]:=char(PocPos);
+         Pocitam[0]:=AnsiChar(PocPos);
          Pocitam:=Pocitam+' '+TTah1ToStr(Tah1,Pozice);
          MysDopForm.Label20.Caption:=Pocitam;
         end;
     end;
     {</Bìžné výpisy>}
  end;
-Procedure TMyslitel.VypisNejlepsi(Tah1:TTah1;Var Nejlepsi:String; Styl:TStyl);
+Procedure TMyslitel.VypisNejlepsi(Tah1:TTah1;Var Nejlepsi:ShortString; Styl:TStyl);
  begin
      {<Bìžné výpisy>}
     case Styl of
@@ -520,7 +520,7 @@ Procedure TMyslitel.VypisNejlepsi(Tah1:TTah1;Var Nejlepsi:String; Styl:TStyl);
     {</Bìžné výpisy>}
  end;
 Procedure TMyslitel.globBIterace(var MeziData:TMeziData; HorsiTahy:LongInt;
-  Styl:TStyl;var Pocitam,Nejlepsi:String);
+  Styl:TStyl;var Pocitam,Nejlepsi:ShortString);
 {Volat pouze hraje-li bílý.
 Provedení jedné iterace v Okénku (Alfa,Beta).}
    var JeTah,Dj:boolean;
@@ -588,7 +588,7 @@ Provedení jedné iterace v Okénku (Alfa,Beta).}
        tahni_zpet(pozice,t2);
        if mezidata.hodnoty[i]=NeHodnota then begin
         MeziData.dojeto:=false;
-        Pocitam[0]:=char(PocPos);
+        Pocitam[0]:=AnsiChar(PocPos);
         exit
        end;
        if mezidata.hodnoty[i]>Mezidata.alfa then
@@ -621,7 +621,7 @@ Provedení jedné iterace v Okénku (Alfa,Beta).}
            MeziData.I:=1;
            MeziData.Alfa:=MeziData.beta-1;
            MeziData.Beta:=Mat;
-           Pocitam[0]:=char(PocPos);
+           Pocitam[0]:=AnsiChar(PocPos);
            exit {Okénko moc dole}
           end; {od pøelezení okénka}
           JeTah:=true;
@@ -657,7 +657,7 @@ Provedení jedné iterace v Okénku (Alfa,Beta).}
          if JeTah and (Mezidata.alfa>=mat-Mezidata.hloubka) then
           begin
            Mezidata.dojeto:=true;
-           Pocitam[0]:=char(PocPos);
+           Pocitam[0]:=AnsiChar(PocPos);
            exit;
           end
         end
@@ -684,7 +684,7 @@ Provedení jedné iterace v Okénku (Alfa,Beta).}
        if (Mezidata.alfa<=-mat+Mezidata.hloubka) then
         begin
          Mezidata.dojeto:=true;
-         Pocitam[0]:=char(PocPos);
+         Pocitam[0]:=AnsiChar(PocPos);
          exit;
         end;
       Mezidata.I:=1;
@@ -696,10 +696,10 @@ Provedení jedné iterace v Okénku (Alfa,Beta).}
     else Mezidata.Beta:=MeziData.Hodnoty[1]+AlgCfg.Okno;
       Inc(Mezidata.Hloubka)
       end;
-   Pocitam[0]:=char(PocPos);
+   Pocitam[0]:=AnsiChar(PocPos);
   end;{Konec BIterace}
 Procedure TMyslitel.globCIterace(var MeziData:TMeziData; HorsiTahy:LongInt;
-  Styl:TStyl;var Pocitam,Nejlepsi:String);
+  Styl:TStyl;var Pocitam,Nejlepsi:ShortString);
 {Volat pouze hraje-li èerný.
 Provedení jedné iterace v Okénku (Alfa,Beta).}
    var JeTah,Dj:boolean;
@@ -766,7 +766,7 @@ Provedení jedné iterace v Okénku (Alfa,Beta).}
        tahni_zpet(pozice,t2);
        if mezidata.hodnoty[i]=NeHodnota then begin
         MeziData.dojeto:=false;
-        Pocitam[0]:=char(PocPos);
+        Pocitam[0]:=AnsiChar(PocPos);
         exit
        end;
        if mezidata.hodnoty[i]<Mezidata.Beta then
@@ -799,7 +799,7 @@ Provedení jedné iterace v Okénku (Alfa,Beta).}
            MeziData.I:=1;
            MeziData.Beta:=MeziData.Alfa+1;
            MeziData.Alfa:=-Mat;
-           Pocitam[0]:=char(PocPos);
+           Pocitam[0]:=AnsiChar(PocPos);
            exit {Okénko moc nahoøe}
           end; {od podlezení okénka}
           JeTah:=true;
@@ -835,7 +835,7 @@ Provedení jedné iterace v Okénku (Alfa,Beta).}
          if JeTah and (Mezidata.Beta<=-mat+Mezidata.hloubka) then
           begin
            Mezidata.dojeto:=true;
-           Pocitam[0]:=char(PocPos);
+           Pocitam[0]:=AnsiChar(PocPos);
            exit;
           end
         end
@@ -868,7 +868,7 @@ Provedení jedné iterace v Okénku (Alfa,Beta).}
        if (Mezidata.beta>=mat-Mezidata.hloubka) then
         begin
          Mezidata.dojeto:=true;
-         Pocitam[0]:=char(PocPos);
+         Pocitam[0]:=AnsiChar(PocPos);
          exit;
         end;
       Mezidata.I:=1;
@@ -880,12 +880,12 @@ Provedení jedné iterace v Okénku (Alfa,Beta).}
     else Mezidata.Beta:=MeziData.Hodnoty[1]+AlgCfg.Okno;
       Inc(Mezidata.Hloubka)
       end;
-   Pocitam[0]:=char(PocPos);
+   Pocitam[0]:=AnsiChar(PocPos);
   end;{Konec CIterace}
 procedure TMyslitel.DejTah(var npozice:tpozice;var npartie:ppartie);
  var Mezidata:TMezidata;
   Procedure Jedeme(bily:boolean);
-   var Pocitam,Nejlepsi:String;
+   var Pocitam,Nejlepsi:ShortString;
   begin
    Pocitam:='';
    Nejlepsi:='';
@@ -1139,7 +1139,7 @@ hloubky propoètu nemá smysl (poèítal bych již vypoètené).}
   end; {Od Alfa_Beta_Vrazi}
 {Aèkoliv jsem víceménì vyznavaèem Pascalu, když vidím tolik endù za sebou...}
 function TMyslitel.Alfa_Beta(Alfa,Beta:LongInt;hloubka:integer;
-        var dojeto:boolean;HloubkaRekurze:Integer;Styl:TStyl;var Pocitam,Nejlepsi:String):longint;
+        var dojeto:boolean;HloubkaRekurze:Integer;Styl:TStyl;var Pocitam,Nejlepsi:ShortString):longint;
   var
    tahy:ttahy;
    t2:ttah2;
@@ -1149,7 +1149,7 @@ function TMyslitel.Alfa_Beta(Alfa,Beta:LongInt;hloubka:integer;
    hodnota,sAlfa,sBeta,pomlongint:longint;
    h:integer;
    i,PocPos,NejPos:byte;
-   PomStr:String;
+   PomStr:ShortString;
   begin
    if (alfa<-mat+100) and (alfa>=-mat) then alfa:=alfa-1;
    if (beta>mat-100) and (beta<=mat) then beta:=beta+1;
@@ -1217,7 +1217,7 @@ function TMyslitel.Alfa_Beta(Alfa,Beta:LongInt;hloubka:integer;
         Vypisovac.writeZacatekAlfaBetaIterace(sAlfa,sBeta,H,HloubkaRekurze)
        end;
        {</Ladící výpisy>}
-              Pocitam[0]:=Char(PocPos);
+              Pocitam[0]:=AnsiChar(PocPos);
               dojeto:=true; Alfa:=sAlfa; Beta:=sBeta;
               for i:=1 to Tahy.PocTah do
                begin
@@ -1260,7 +1260,7 @@ function TMyslitel.Alfa_Beta(Alfa,Beta:LongInt;hloubka:integer;
                    if hodnota=NeHodnota then
                     begin
                      result:=NeHodnota;
-                     Pocitam[0]:=Char(PocPos);
+                     Pocitam[0]:=AnsiChar(PocPos);
                      exit
                     end;
                   end; {od musím poèítat}
@@ -1282,7 +1282,7 @@ function TMyslitel.Alfa_Beta(Alfa,Beta:LongInt;hloubka:integer;
                   begin
                    result:=beta;
                    dojeto:=false;
-                   Pocitam[0]:=Char(PocPos);
+                   Pocitam[0]:=AnsiChar(PocPos);
                    exit
                   end else break;
                   pomtah1:=tahy.t[i];  pomlongint:=HodnotyTahu[i];
@@ -1320,7 +1320,7 @@ hloubky propoètu nemá smysl (poèítal bych již vypoètené).}
         Vypisovac.writeZacatekAlfaBetaIterace(sAlfa,sBeta,H,HloubkaRekurze)
        end;
        {</Ladící výpisy>}
-              Pocitam[0]:=Char(PocPos);
+              Pocitam[0]:=AnsiChar(PocPos);
               dojeto:=true; Alfa:=sAlfa; Beta:=sBeta;
               for i:=1 to Tahy.PocTah do
                begin
@@ -1360,7 +1360,7 @@ hloubky propoètu nemá smysl (poèítal bych již vypoètené).}
                    je to celé nedopoètené}
                    tahni_zpet(pozice,t2);
                    if hodnota=NeHodnota then
-                    begin result:=NeHodnota;Pocitam[0]:=Char(PocPos);exit end;
+                    begin result:=NeHodnota;Pocitam[0]:=AnsiChar(PocPos);exit end;
                   end; {od musím poèítat}
                  if hodnota<beta then
                  begin
@@ -1376,7 +1376,7 @@ hloubky propoètu nemá smysl (poèítal bych již vypoètené).}
        {</Ladící výpisy>}
                   result:=beta;
                   if alfa>=beta then
-if h=hloubka-1 then begin result:=alfa;dojeto:=false; Pocitam[0]:=Char(PocPos);exit end else break;
+if h=hloubka-1 then begin result:=alfa;dojeto:=false; Pocitam[0]:=AnsiChar(PocPos);exit end else break;
                   pomtah1:=tahy.t[i];  pomlongint:=HodnotyTahu[i];
                   tahy.t[i]:=tahy.t[1];HodnotyTahu[i]:=HodnotyTahu[1];
                   tahy.t[1]:=pomtah1;  HodnotyTahu[1]:=pomlongint;
@@ -1402,6 +1402,6 @@ hloubky propoètu nemá smysl (poèítal bych již vypoètené).}
        end {od not(tahy.poctah=0)}
      end  {od not(hloubka=0)}
     end; {Od not MusimKoncit}
-    Pocitam[0]:=Char(PocPos);
+    Pocitam[0]:=AnsiChar(PocPos);
   end; {Od Alfa_Beta}
 end.
