@@ -27,11 +27,6 @@ type
       volání myslící procedury (DejTah nebo MysliOTahDopredu). }
     FPozice: TPozice; { Sem si překopíruji pozici z objektu šachovnice
       při každém volání myslící procedury (DejTah nebo MysliOTahDopredu). }
-    MeziVypocet: TMezivypocet; { Sem si uložím výsledky MysliOTahDopredu.
-      Musí být nil, pokud jsem nic nevypočítal !!!! Není-li nil, dealokuje se.
-      Použije se v DejTah a to pokud platí a) i b)
-      a) MeziVypocet <> nil
-      b) Pozice "=" nPozice (např. uživatel mohl změnit pozici) }
     // Hraji: TDejtahProc;
     FKnihovna: TKnihovna;
     FRemisValue: Longint;
@@ -83,6 +78,11 @@ type
     procedure SetOptions(const Value: TCommonEngineOptions);
     procedure SetRootMoves(const Value: TRootMoves);
   public
+    MeziVypocet: TMezivypocet; { Sem si uložím výsledky MysliOTahDopredu.
+      Musí být nil, pokud jsem nic nevypočítal !!!! Není-li nil, dealokuje se.
+      Použije se v DejTah a to pokud platí a) i b)
+      a) MeziVypocet <> nil
+      b) Pozice "=" nPozice (např. uživatel mohl změnit pozici) }
     pocitam: ShortString; // CurrLine
     constructor Create;
     destructor Destroy; override;
@@ -449,7 +449,7 @@ begin
     MeziData.I := I;
     { <Běžné výpisy> }
     VypisVariantu(MeziData.Tahy.t[I], PocPos, 1, I);
-    FAnalysisInfo.SetCurrentMove(I, MoveStr);
+    FAnalysisInfo.SetCurrentMove(I - 1, MoveStr);
     EngineOutput.DrawMove1;
     FStopManager.UpdateStopMove;
     { </Běžné výpisy> }
@@ -472,8 +472,7 @@ begin
         else if MeziData.Hodnoty[I] < -mat + 100 then
           inc(MeziData.Hodnoty[I]);
       if not Dj then
-        MeziData.Dojeto := false; { nedopočetl-li jsem aspoň 1 tah,
-        je to celé nedopočtené }
+        MeziData.Dojeto := false; { nedopočetl-li jsem aspoň 1 tah, je to celé nedopočtené }
     end;
     UberTah(FPartie);
     tahni_zpet(FPozice, t2);
@@ -615,7 +614,7 @@ begin
     MeziData.I := I;
     { <Běžné výpisy> }
     VypisVariantu(MeziData.Tahy.t[I], PocPos, 1, I);
-    FAnalysisInfo.SetCurrentMove(I, MoveStr);
+    FAnalysisInfo.SetCurrentMove(I - 1, MoveStr);
     EngineOutput.DrawMove1;
     FStopManager.UpdateStopMove;
     { </Běžné výpisy> }
@@ -783,13 +782,17 @@ begin { DejTah }
   try
     if EngineOutput.DebugMode then
       EngineOutput.TellGUIDebug('Start');
-    AspirationWindowSize := FOptions.AspirationWindowSize.Value;
 
-    if (FAnalysisInfo.AnalysisCount = 0) or (FStopManager.InfiniteAnalysis) then
+    if (FAnalysisInfo.AnalysisCount = 0) or (FStopManager.LevelManager.InfiniteAnalysis) then
     begin
       MeziVypocet.DejInfo(FPozice, MeziData);
       AnalysisInfo.MoveCount := MeziData.Tahy.Poctah;
-      if (MeziData.Tahy.Poctah > 1) or (FStopManager.InfiniteAnalysis) then { Pokud má smysl přemýšlet tak }
+      if MeziData.Tahy.Poctah = 0 then
+      begin
+        EngineOutput.TellGUIInfo('No move available.');
+        Exit;
+      end
+      else if (MeziData.Tahy.Poctah > 1) or (FStopManager.LevelManager.InfiniteAnalysis) then { Pokud má smysl přemýšlet tak }
       begin
         if hb in FPozice.stav.b then
         begin
@@ -836,11 +839,6 @@ begin { DejTah }
             end;
           end;
         end;
-      end
-      else if (MeziData.Tahy.Poctah = 0) then
-      begin
-        EngineOutput.TellGUIInfo('No move available.');
-        Exit;
       end;
 
       if (AnalysisInfo.AnalysisCount = 0) then

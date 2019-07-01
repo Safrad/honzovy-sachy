@@ -6,7 +6,10 @@ uses
   Classes,
 
 	uTypes,
+  uNumericalIntervalArgument,
+
 	uInternalEngine,
+
   Myslitel,
   CoTy,
   uPartie;
@@ -18,11 +21,16 @@ type
     FPozice: Tpozice;
     FPartie: PJednoPartie;
     FEngineThread: TThread;
+    FAspirationWindowSize: TNumericalIntervalArgument;
+    procedure CreateOptions;
+  protected
+    function GetRemainMoveCount: SG; override;
  	public
     constructor Create;
     destructor Destroy; override;
 
-    procedure DoMove(const AMove: string; const ANullMoveStr: string); override;
+    function GetPerft(const AMaximalDepth: SG): U8; override;
+    procedure DoMove(const AMove: string); override;
     procedure Undo; override;
     procedure SetPositionFromStringSpecific(const AString: string; out ASideToMove: SG); override;
     procedure SetStartPos; override;
@@ -41,7 +49,8 @@ uses
 
   uNewThread,
 
-  Rutiny;
+  Rutiny,
+  uMezivypocet;
 
 { THonzovySachyEngine }
 
@@ -93,9 +102,23 @@ begin
 	inherited;
 
   FMyslitel := TMyslitel.Create;
-  FMyslitel.Options := Options;
+  FMyslitel.Options := CommonOptions;
   FMyslitel.StopManager := StopManager;
   FMyslitel.AnalysisInfo := AnalysisInfo;
+
+  CreateOptions;
+end;
+
+procedure THonzovySachyEngine.CreateOptions;
+begin
+  FAspirationWindowSize := TNumericalIntervalArgument.Create;
+  FAspirationWindowSize.Shortcut := 'Aspiration Window Size';
+  FAspirationWindowSize.Description := '[centi pawn] Aspiration Window Size.';
+  FAspirationWindowSize.DefaultValue := 250; // cp
+  FAspirationWindowSize.NumericalInterval.MinimalValue :=  0;
+  FAspirationWindowSize.NumericalInterval.MaximalValue :=  10000;
+  FAspirationWindowSize.Value := FAspirationWindowSize.DefaultValue;
+  Options.Add(FAspirationWindowSize);
 end;
 
 destructor THonzovySachyEngine.Destroy;
@@ -116,7 +139,7 @@ begin
   end;
 end;
 
-procedure THonzovySachyEngine.DoMove(const AMove, ANullMoveStr: string);
+procedure THonzovySachyEngine.DoMove(const AMove: string);
 var
   t1: TTah1;
   t2: TTah2;
@@ -140,6 +163,40 @@ begin
   Result := string(FMyslitel.pocitam);
 end;
 
+function THonzovySachyEngine.GetPerft(const AMaximalDepth: SG): U8;
+var
+  NodeCount: U8;
+  MeziData: TMeziData;
+  I: SG;
+  t1: TTah1;
+  t2: TTah2;
+begin
+  FMyslitel.Mezivypocet.DejInfo(FPozice, MeziData);
+  if AMaximalDepth <= 1 then
+  begin
+    Result := MeziData.Tahy.poctah;
+    Exit;
+  end;
+
+  Result := 0;
+  for I := 1 to MeziData.Tahy.poctah do
+  begin
+    t1 := MeziData.Tahy.t[i];
+    DoplnTah(t1, FPozice, t2);
+    tahni(FPozice, t1);
+
+    NodeCount := GetPerft(AMaximalDepth - 1);
+    Inc(Result, NodeCount);
+
+    tahni_zpet(FPozice, t2);
+  end;
+end;
+
+function THonzovySachyEngine.GetRemainMoveCount: SG;
+begin
+  Result := 35;
+end;
+
 procedure Run(AInstance: TObject; ANewThread: TThread);
 var
   HonzovySachyEngine: THonzovySachyEngine;
@@ -161,6 +218,7 @@ procedure THonzovySachyEngine.Start;
 begin
   inherited;
 
+  FMyslitel.AspirationWindowSize := FAspirationWindowSize.Value;
   FMyslitel.StopManager := StopManager;
   FMyslitel.AnalysisInfo := AnalysisInfo;
   FMyslitel.EngineOutput := Output;

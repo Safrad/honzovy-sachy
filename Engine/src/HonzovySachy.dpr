@@ -22,13 +22,16 @@ var
 begin
   ConsoleEngine := TConsoleEngine.Create;
   try
-    HonzovySachyEngine := THonzovySachyEngine.Create;
-    try
-      HonzovySachyEngine.SetStartPos;
-      ConsoleEngine.InternalEngine := HonzovySachyEngine;
-      ConsoleEngine.Run;
-    finally
-      HonzovySachyEngine.Free;
+    if ConsoleEngine.Initialized then
+    begin
+      HonzovySachyEngine := THonzovySachyEngine.Create;
+      try
+        HonzovySachyEngine.SetStartPos;
+        ConsoleEngine.InternalEngine := HonzovySachyEngine;
+        ConsoleEngine.Run;
+      finally
+        HonzovySachyEngine.Free;
+      end;
     end;
   finally
     ConsoleEngine.Free;

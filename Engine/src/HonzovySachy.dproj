@@ -3,12 +3,12 @@
         <ProjectGuid>{ECDDE1ED-9784-41CB-8384-AD966928B8E9}</ProjectGuid>
         <MainSource>HonzovySachy.dpr</MainSource>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Release</Config>
+        <Config Condition="'$(Config)'==''">Debug</Config>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
         <FrameworkType>VCL</FrameworkType>
-        <ProjectVersion>18.4</ProjectVersion>
-        <Platform Condition="'$(Platform)'==''">Win64</Platform>
+        <ProjectVersion>18.6</ProjectVersion>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -70,7 +70,7 @@
         <VerInfo_Keys>CompanyName=SxSoft;FileDescription=;FileVersion=1.0.0.0;InternalName=HonzovySachy;LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=HonzovySachy.exe;ProductName=Honzovy Šachy;ProductVersion=1.0.0.0;Comments=;CFBundleName=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
         <DCC_ExeOutput>..\</DCC_ExeOutput>
         <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
-        <DCC_UnitSearchPath>..\..\Safrad\src\Protocols;..\..\Safrad\src\Protocols\UCI;..\..\Safrad\src\Protocols\WinBoard;..\..\Safrad\src\Protocols\Commands;..\..\Safrad\src\Protocols\Commands\UCI;..\..\Safrad\src\Protocols\Commands\WinBoard;..\..\SDG\src\engine;..\..\SDG\src;..\..\SDG\src\Levels;..\..\SDG\src\Variants\Generator;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>..\..\..\Safrad\src\Protocols;..\..\..\Safrad\src\Protocols\UCI;..\..\..\Safrad\src\Protocols\WinBoard;..\..\..\Safrad\src\Protocols\Commands;..\..\..\Safrad\src\Protocols\Commands\UCI;..\..\..\Safrad\src\Protocols\Commands\WinBoard;..\..\..\SDG\src\engine;..\..\..\SDG\src;..\..\..\SDG\src\Levels;..\..\..\SDG\src\Variants\Generator;..\..\..\SDG\src\Variants;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
@@ -99,40 +99,45 @@
         <DCC_DebugInformation>0</DCC_DebugInformation>
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
         <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
-        <VerInfo_PreRelease>true</VerInfo_PreRelease>
+        <DCC_Inlining>auto</DCC_Inlining>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <AppEnableHighDPI>true</AppEnableHighDPI>
         <VerInfo_Keys>CompanyName=SxSoft;FileDescription=;FileVersion=1.0.0.0;InternalName=$(MSBuildProjectName);LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=$(MSBuildProjectName).exe;ProductName=Honzovy Šachy;ProductVersion=1.0.0.0;Comments=;ProgramID=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
-        <Debugger_RunParams>-startup commands.txt</Debugger_RunParams>
         <DCC_IOChecking>false</DCC_IOChecking>
-        <DCC_ImportedDataReferences>false</DCC_ImportedDataReferences>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <DCC_ImportedDataReferences>false</DCC_ImportedDataReferences>
+        <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
         <DCC_AssertionsAtRuntime>false</DCC_AssertionsAtRuntime>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=SxSoft;FileDescription=;FileVersion=1.0.0.0;InternalName=$(MSBuildProjectName);LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=$(MSBuildProjectName).exe;ProgramID=;ProductName=Honzovy Šachy;ProductVersion=1.0.0.0;Comments=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
+        <DCC_Inlining>auto</DCC_Inlining>
+        <DCC_IOChecking>false</DCC_IOChecking>
+        <DCC_AssertionsAtRuntime>false</DCC_AssertionsAtRuntime>
+        <DCC_ImportedDataReferences>false</DCC_ImportedDataReferences>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
         <DCC_Optimize>false</DCC_Optimize>
         <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
         <VerInfo_Debug>true</VerInfo_Debug>
+        <DCC_Inlining>off</DCC_Inlining>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <AppEnableHighDPI>true</AppEnableHighDPI>
         <VerInfo_Keys>CompanyName=SxSoft;FileDescription=;FileVersion=1.0.0.0;InternalName=$(MSBuildProjectName);LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=$(MSBuildProjectName).exe;ProductName=Honzovy Šachy;ProductVersion=1.0.0.0;Comments=;ProgramID=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
-        <VerInfo_PreRelease>true</VerInfo_PreRelease>
-        <Debugger_RunParams>-startup commands.txt</Debugger_RunParams>
         <VerInfo_Locale>1033</VerInfo_Locale>
+        <DCC_IntegerOverflowCheck>true</DCC_IntegerOverflowCheck>
+        <DCC_RangeChecking>true</DCC_RangeChecking>
+        <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=SxSoft;FileDescription=;FileVersion=1.0.0.0;InternalName=$(MSBuildProjectName);LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=HonzovySachy.exe;ProgramID=;ProductName=Honzovy Šachy;ProductVersion=1.0.0.0;Comments=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
-        <Debugger_RunParams>-startup commands.txt</Debugger_RunParams>
+        <DCC_IntegerOverflowCheck>true</DCC_IntegerOverflowCheck>
+        <DCC_RangeChecking>true</DCC_RangeChecking>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -167,15 +172,7 @@
                 <Source>
                     <Source Name="MainSource">HonzovySachy.dpr</Source>
                 </Source>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="C:\Projects\Companies\Ikos\Doch5\komponenty\ikos\D5.bpl">IKOS Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k250.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp250.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Program Files (x86)\FastReport 6 VCL Trial\LibD25\dclfrxTee25.bpl">FastReport 6.0 Tee Components</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Program Files (x86)\FastReport 6 VCL Trial\LibD25\dclfsTee25.bpl">FastScript 1.9 Tee Components</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Program Files (x86)\FastReport 6 VCL Trial\LibD25\dclfrxIBX25.bpl">FastReport 6.0 IBX Components</Excluded_Packages>
-                    <Excluded_Packages Name="C:\Program Files (x86)\FastReport 6 VCL Trial\LibD25\dclfsIBX25.bpl">FastScript 1.9 IBX Components</Excluded_Packages>
-                </Excluded_Packages>
+                <Excluded_Packages/>
             </Delphi.Personality>
             <Platforms>
                 <Platform value="Win32">True</Platform>
@@ -239,13 +236,18 @@
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="Win32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>0</Operation>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="AndroidClassesDexFile">
                     <Platform Name="Android">
                         <RemoteDir>classes</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidFileProvider">
+                    <Platform Name="Android">
+                        <RemoteDir>res\xml</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -282,6 +284,12 @@
                 <DeployClass Name="AndroidSplashStyles">
                     <Platform Name="Android">
                         <RemoteDir>res\values</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="AndroidSplashStylesV21">
+                    <Platform Name="Android">
+                        <RemoteDir>res\values-v21</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -363,6 +371,11 @@
                         <Operation>1</Operation>
                         <Extensions>.framework</Extensions>
                     </Platform>
+                    <Platform Name="OSX64">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.framework</Extensions>
+                    </Platform>
                     <Platform Name="Win32">
                         <Operation>0</Operation>
                     </Platform>
@@ -381,6 +394,11 @@
                         <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX64">
                         <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
@@ -408,6 +426,11 @@
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
                     </Platform>
+                    <Platform Name="OSX64">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
                     <Platform Name="Win32">
                         <Operation>0</Operation>
                         <Extensions>.bpl</Extensions>
@@ -427,6 +450,10 @@
                         <Operation>0</Operation>
                     </Platform>
                     <Platform Name="OSX32">
+                        <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
+                        <Operation>0</Operation>
+                    </Platform>
+                    <Platform Name="OSX64">
                         <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
                         <Operation>0</Operation>
                     </Platform>
@@ -566,8 +593,18 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
+                <DeployClass Name="ProjectOSXDebug">
+                    <Platform Name="OSX64">
+                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
                 <DeployClass Name="ProjectOSXEntitlements">
                     <Platform Name="OSX32">
+                        <RemoteDir>..\</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX64">
                         <RemoteDir>..\</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -577,9 +614,17 @@
                         <RemoteDir>Contents</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
+                    <Platform Name="OSX64">
+                        <RemoteDir>Contents</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
                     <Platform Name="OSX32">
+                        <RemoteDir>Contents\Resources</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX64">
                         <RemoteDir>Contents\Resources</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -602,6 +647,10 @@
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX64">
                         <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
@@ -644,6 +693,7 @@
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="OSX64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
             </Deployment>
         </BorlandProject>

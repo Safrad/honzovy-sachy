@@ -6,32 +6,35 @@ uses
   CoTy;
 
 type
-  PJednoPartie=^TJednoPartie;
-  TJednoPartie=record
-    t2:ttah2;
-    l:PJednoPartie
-  end;
-{Jednosmìrný spoják partie základní_postavení<-tah1 <- tah2 <- .... <- mat
- nemá (narozdíl od TPartie) nevyužitý nejlevìjší èlen}
+  PJednoPartie = ^TJednoPartie;
 
-function CopyKusPartie(Kde: TPozice; Odkud: PJednoPartie; var Kam: PJednoPartie): Integer;
-procedure DonePJednoPartie(var p: PJednoPartie);
-procedure PridejTah(var Kam: PJednoPartie; co: ttah2);
-procedure UberTah(var Odkud: PJednoPartie);
-function PoloRemis(Partie: PJednoPartie; var Pozice: TPozice): Boolean;
+  TJednoPartie = record
+    t2: ttah2;
+    l: PJednoPartie end;
+    { Jednosmìrný spoják partie základní_postavení<-tah1 <- tah2 <- .... <- mat
+      nemá (narozdíl od TPartie) nevyužitý nejlevìjší èlen }
 
-var
-  ClaimMoves: Integer;
+    function CopyKusPartie(Kde: TPozice; Odkud: PJednoPartie;
+      var Kam: PJednoPartie): Integer;
+    procedure DonePJednoPartie(var p: PJednoPartie);
+    procedure PridejTah(var Kam: PJednoPartie; co: ttah2);
+    procedure UberTah(var Odkud: PJednoPartie);
+    function PoloRemis(Partie: PJednoPartie; var Pozice: TPozice): Boolean;
+
+  var
+    ClaimMoves: Integer;
 
 implementation
 
 uses
-  Rutiny;
+  Rutiny,
+  Rychle;
 
 { !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! }
 { !!!                  Procedury pro práci s PJednoPartie               !!! }
 { !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! }
-function CopyKusPartie(Kde: TPozice; Odkud: PJednoPartie; var Kam: PJednoPartie): Integer;
+function CopyKusPartie(Kde: TPozice; Odkud: PJednoPartie;
+  var Kam: PJednoPartie): Integer;
 { Zkopíruje èást partie. Jde od souèasného stavu doleva až po první tah
   pìšcem nebo braní. Budoucnost tj. to, co je vpravo nezkopíruje.
   Je-li poslední tah braní nebo tah pìšcem bude Kam Nil. }
@@ -106,30 +109,12 @@ end;
 
 function PoloRemis(Partie: PJednoPartie; var Pozice: TPozice): Boolean;
 { Dochází v Partii k opakování poslední Pozice nebo aspoò k 50 tichým tahùm ? }
-  function stejne(var pos1, pos2: TPozice): Boolean;
-  var
-    x: byte;
-  begin
-    result := true;
-    if pos1.stav.b <> pos2.stav.b then
-      result := false
-    else if pos1.stav.mimoch <> pos2.stav.mimoch then
-      result := false
-    else
-      for x := 0 to 63 do
-        if pos1.sch[0, x] <> pos2.sch[0, x] then
-        begin
-          result := false;
-          exit
-        end;
-  end;
-
 var
   th: shortint;
   pompos: TPozice;
 begin
   th := ClaimMoves;
-  result := false;
+  Result := false;
   pompos := Pozice;
   while (Partie <> nil) and (th > 0) do
   begin
@@ -137,15 +122,15 @@ begin
     if trvalaa_zmena(pompos, Partie^.t2) then
       break;
     tahni_zpet(pompos, Partie^.t2);
-    if stejne(Pozice, pompos) then
+    if stejnepos(Pozice, pompos) then
     begin
-      result := true;
+      Result := true;
       break
     end;
     Partie := Partie^.l;
   end;
   if th = 0 then
-    result := true;
+    Result := true;
 end;
 
 end.

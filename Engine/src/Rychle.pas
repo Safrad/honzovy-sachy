@@ -29,6 +29,9 @@ implementation
 
 uses
   SysUtils,
+
+  uMath,
+
   rutiny;
 
 procedure NapadVezi(x, y: shortint; var sch, vz: tsch);
@@ -37,6 +40,8 @@ var
   i: shortint;
 begin
   fillchar(vz, sizeof(vz), 0);
+  if x = -128 then
+    Exit; {neni kral}
   for i := x + 1 to 7 do
   begin
     vz[i, y] := 1;
@@ -68,6 +73,8 @@ var
   i, j: shortint;
 begin
   fillchar(vz, sizeof(vz), 0);
+  if x = -128 then
+    Exit; {neni kral}
   i := x + 1;
   j := y + 1;
   while (i <= 7) and (j <= 7) do
@@ -113,6 +120,8 @@ end;
 procedure NapadJezdcem(x, y: shortint; var vz: tsch);
 begin
   fillchar(vz, sizeof(vz), 0);
+  if x = -128 then
+    Exit; {neni kral}
   if (x - 2 >= 0) and (y - 1 >= 0) then
     vz[x - 2, y - 1] := 1;
   if (x - 2 >= 0) and (y + 1 <= 7) then
@@ -140,6 +149,9 @@ var
   v, dal: boolean;
 begin
   fillchar(vz, sizeof(vz), 0);
+  if x = -128 then
+    Exit; {neni kral}
+
   if sch[x, y] > 0 then
   begin
     for i := -1 to 1 do
@@ -149,6 +161,8 @@ begin
           k := x + i;
           l := y + j;
           v := false;
+          vx := -1;
+          vy := -1;
           dal := true;
           while (k >= 0) and (k <= 7) and (l >= 0) and (l <= 7) and dal do
           begin
@@ -183,6 +197,8 @@ begin
           k := x + i;
           l := y + j;
           v := false;
+          vx := -1;
+          vy := -1;
           dal := true;
           while (k >= 0) and (k <= 7) and (l >= 0) and (l <= 7) and dal do
           begin
@@ -268,6 +284,7 @@ var
 
   procedure ZarBez(np1, np2: byte; npromena: shortint);
   begin
+    // TODO : chyba generatoru tahu: brani mimochodem neni mozne, pokud je po tahu kral v sachu
     if (vz[np1 and 15, np1 shr 4] = 0) { figura nebyla vázaná } or
       (((np2 and 15) - kx) * ((np1 shr 4) - ky) = ((np1 and 15) - kx) *
       ((np2 shr 4) - ky))
@@ -704,6 +721,8 @@ BEGIN
   vrahu := 0;
   if hb in pos.stav.b then { na tahu je bílý }
   begin
+    kx := -128;
+    ky := -128;
     for x := 0 to 7 do
       for y := 0 to 7 do
         if pos.sch[x, y] = 6 then
@@ -713,7 +732,7 @@ BEGIN
           goto NalBilKral
         end;
   NalBilKral:
-    if ohrozeno(kx, ky, false, pos.sch) then
+    if (kx <> -128) and ohrozeno(kx, ky, false, pos.sch) then
     begin
       result := true;
       for x := 0 to 7 do
@@ -873,8 +892,8 @@ var
     if (y < 6) then
     begin
       if (y = 1) and (pos.sch[x, 2] = 0) and (pos.sch[x, 3] = 0) and
-        ((x < 7) and (pos.sch[x + 1, 4] = -6) or (x > 0) and
-        (pos.sch[x - 1, 4] = -6)) then
+        (((x < 7) and (pos.sch[x + 1, 4] = -6)) or ((x > 0) and
+        (pos.sch[x - 1, 4] = -6))) then
         Zar(x + y shl 4, x + (y + 2) shl 4, 0);
       if (pos.sch[x, y + 1] = 0) and
         ((x < 7) and (pos.sch[x + 1, y + 2] = -6) or (x > 0) and
@@ -1168,10 +1187,10 @@ var
     if (y > 1) then
     begin
       if (y = 6) and (pos.sch[x, 5] = 0) and (pos.sch[x, 4] = 0) and
-        ((x < 7) and (pos.sch[x - 1, 3] = 6) or (x > 0) and
-        (pos.sch[x - 1, 3] = 6)) then
+        (((x < 7) and (pos.sch[x + 1, 3] = 6)) or ((x > 0) and
+        (pos.sch[x - 1, 3] = 6))) then
         Zar(x + 6 shl 4, x + 4 shl 4, 0);
-      if (pos.sch[x, y - 1] = 0) and ((x < 7) and (pos.sch[x - 1, y - 2] = 6) or
+      if (pos.sch[x, y - 1] = 0) and ((x < 7) and (pos.sch[x + 1, y - 2] = 6) or
         (x > 0) and (pos.sch[x - 1, y - 2] = 6)) then
         Zar(x + y shl 4, x + (y - 1) shl 4, 0);
       if (x < 7) and (pos.sch[x + 1, y - 1] > 0) then
@@ -1465,21 +1484,25 @@ BEGIN
   tahy.poctah := 0;
   if hb in pos.stav.b then { na tahu je bílý }
   begin
+    kx := -128;
+    ky := -128;
+    kdx := -128;
+    kdy := -128;
     for x := 0 to 7 do
       for y := 0 to 7 do
       begin
         if pos.sch[x, y] = 6 then
         begin
           kx := x;
-          ky := y
+          ky := y;
         end
         else if pos.sch[x, y] = -6 then
         begin
           kdx := x;
-          kdy := y
+          kdy := y;
         end;
       end;
-    if ohrozeno(kx, ky, false, pos.sch) then
+    if (kx <> -128) and ohrozeno(kx, ky, false, pos.sch) then
     begin
       naleztahy(pos, tahy); { Mám-li šach, je každý mùj tah vrahem }
       result := true;
@@ -1511,6 +1534,10 @@ BEGIN
   end { od hraje bílý }
   else
   begin { Hraje èerný }
+    kx := -128;
+    ky := -128;
+    kdx := -128;
+    kdy := -128;
     for x := 0 to 7 do
       for y := 0 to 7 do
       begin
@@ -1525,7 +1552,7 @@ BEGIN
           kdy := y
         end;
       end;
-    if ohrozeno(kx, ky, true, pos.sch) then
+    if (kx <> -128) and ohrozeno(kx, ky, true, pos.sch) then
     begin
       naleztahy(pos, tahy); { Mám-li šach, je každý mùj tah vrahem }
       result := true;
@@ -1906,6 +1933,7 @@ var
   end;
 
 { !!!!!!!!!!!!!!!!!!!!!!!!! ZAÈÁTEK TÌLA nalezbrani !!!!!!!!!!!!!!!!!!!!!!!! }
+label KralNalezen, KralNalezen2;
 BEGIN
 {$IFDEF LADIM}
   BachaRekurze := true;
@@ -1913,13 +1941,16 @@ BEGIN
   tahy.poctah := 0;
   if hb in pos.stav.b then { na tahu je bílý }
   begin
+    kx := -128;
+    ky := -128;
     for x := 0 to 7 do
       for y := 0 to 7 do
       begin
         if pos.sch[x, y] = 6 then
         begin
           kx := x;
-          ky := y
+          ky := y;
+          goto KralNalezen;
         end;
 {        else if pos.sch[x, y] = -6 then
         begin
@@ -1927,7 +1958,8 @@ BEGIN
           kdy := y
         end;}
       end;
-    if ohrozeno(kx, ky, false, pos.sch) then
+    KralNalezen:
+    if (kx <> -128) and ohrozeno(kx, ky, false, pos.sch) then
     begin
       naleztahy(pos, tahy); { Mám-li šach, je každý mùj tah vrahem }
       result := true; { !!!!!!!!!!!!!!!!!!!!! ale ne braním !!!!!!!!!!!!!!!! }
@@ -1956,13 +1988,16 @@ BEGIN
   end { od hraje bílý }
   else
   begin { Hraje èerný }
+    kx := -128;
+    ky := -128;
     for x := 0 to 7 do
       for y := 0 to 7 do
       begin
         if pos.sch[x, y] = -6 then
         begin
           kx := x;
-          ky := y
+          ky := y;
+          goto KralNalezen2;
         end;
 {        else if pos.sch[x, y] = 6 then
         begin
@@ -1970,7 +2005,8 @@ BEGIN
           kdy := y
         end;}
       end;
-    if ohrozeno(kx, ky, true, pos.sch) then
+KralNalezen2:
+    if (kx <> -128) and ohrozeno(kx, ky, true, pos.sch) then
     begin
       naleztahy(pos, tahy); { Mám-li šach, je každý mùj tah vrahem }
       result := true;
@@ -2040,20 +2076,9 @@ begin
   end;
 end;
 
-function stejnepos(var pa, pb: Tpozice): boolean;
-var
-  i, j: integer;
+function stejnepos(var pa, pb: TPozice): Boolean;
 begin
-  result := false;
-  if pa.stav.mimoch <> pb.stav.mimoch then
-    exit;
-  if pa.stav.b <> pb.stav.b then
-    exit;
-  for i := 0 to 7 do
-    for j := 0 to 7 do
-      if pa.sch[i, j] <> pb.sch[i, j] then
-        exit;
-  result := true;
+  Result := SameData(@pa, @pb, SizeOf(TPozice));
 end;
 
 function SameTah1(const A, B: TTah1): Boolean;

@@ -55,6 +55,10 @@ begin
   fillchar(pesci, sizeof(pesci), 0);
   fillchar(figury, sizeof(figury), 0);
   { Nejprve si jenom zpoèítam figury a zjistím pozici obou králù }
+  kbx := -128;
+  kby := -128;
+  kcx := -128;
+  kcy := -128;
   for x := 0 to 7 do
     for y := 0 to 7 do
       if pos.sch[x, y] > 0 then
@@ -85,6 +89,17 @@ begin
           kcy := y
         end
       end;
+
+  if kbx = -128 then
+  begin
+    Result := -mat - 1;
+    Exit;
+  end;
+  if kcx = -128 then
+  begin
+    Result := mat + 1;
+    Exit;
+  end;
   { Teï urèím o jaký typ pozice se jedná (nebo napø. v koncovce jsou
     významné jiné vlastnosti pozice než ve støední høe) }
   if (figury[0, 5] > 0) and ((figury[0, 4] > 0) or (figury[0, 3] > 0) or
