@@ -1,5 +1,5 @@
 Name:           Honzovy Šachy
-Version:        1
+Version:        1.1
 Description:    Chess engine for Windows
 Protocol:       Winboard (https://www.gnu.org/software/xboard/)
                 UCI2 (Universal Chess Interface - Version 2, http://wbec-ridderkerk.nl/html/UCIProtocol.html)
@@ -8,7 +8,7 @@ E-Mail:         honzovy-sachy@seznam.cz
 Web:            https://sx.rosada.cz/projects/honzovy-sachy/
 License:        GNU GENERAL PUBLIC LICENSE (see the file "License.txt" for details)
 Created:        1998-03-01
-Modified:       2019-07-01
+Modified:       2019-11-04
 Online Version: https://lichess.org/@/honzovy-sachy
 Chess Rating:   About 1800 ELO on i7-8700 CPU.
 Algorithm:      Alpha-beta search algorithm futility pruning, killer heuristics.
@@ -22,6 +22,11 @@ Engine can be used with any UCI-compliant GUI (Graphical User Interface)
 – Chess Partner
 
 ••• Version History •••
+
+• Honzovy šachy 1.1 (2019-11-04)
+  - faster playing style (keep more time for endgame)
+  – new options "Time Usage", "Average Move Overhead" and "Maximal Move Overhead"
+  – data size optimization (+7% speed on 64 bit)
 
 • Honzovy šachy 1.0 (2019-07-01)
   – protocol XBoard/UCI chess engine
