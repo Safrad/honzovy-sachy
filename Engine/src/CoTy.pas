@@ -2,6 +2,10 @@ unit CoTy; {CoTy znamená Const Type}
 {26.6. 1998 12:00 Vznik souboru (modifikací zdrojového kódu mého programu
                   v Turbo Pascalu)}
 interface
+
+uses
+  uTypes;
+
 const
  nic=0;{prázdné políèko}
 {bílı}
@@ -13,7 +17,7 @@ const
  kral=6;
 {èernı = - bílı}
 {Tyto konstanty slouí pouze pro zpøehlednìní. Není moné je modifikovat !!}
- type TSch=array[0..7,0..7] of shortint;{ve smyslu a..h, 1..8}
+ type TSch=array[0..7,0..7] of S1;{ve smyslu a..h, 1..8}
       TMoznosti=(mrb,vrb,mrc,vrc,hb);
 {mrb = bude moci bílı dìlat malou rošádu (tj. nepohnul vìí na a1 ani králem
 a nebyla vì na a1 sebraná ?)
@@ -21,7 +25,7 @@ vrb, mrc, vrc jsou analogie pro èerného nebo/a velkou rošádu}
 {hb = je bílı na tahu}
       TStav=record
        b:set of Tmoznosti;
-       mimoch:shortint;{na jakém sloupci hrál pøedtím pìšcem o 2 ?
+       mimoch:S1;{na jakém sloupci hrál pøedtím pìšcem o 2 ?
        (kvùli braní mimochodem)}
       end;
 const ne_mimochodem=100; {normálnílní hodnota TStav.mimoch}
@@ -29,12 +33,13 @@ type  Tpozice=record
        sch:tsch;
        stav:tstav
       end;
+      THScore = S2;
 
 TTah1=record{pamìovì úsporná verze tahu, neobsahuje dost informace
 pro vrácení tahu => nejde pouít pøi propoètu,
 pouívám pøi hledání tahù, tady je kadı ušetøenı byte dobrı}
        p1,p2:byte;{p1=odkud.x+16*odkud.y, p2=kam.x+kam.y*16}
-       promena:shortint;{Obsahuje typ vısledné figury, tj. normálnì figuru,
+       promena:S1;{Obsahuje typ vısledné figury, tj. normálnì figuru,
        kterou se táhlo, vyjímka pøi promìnì pìšce
        jinımi slovy: co bude na poli p2 po provedení tahu}
       end;
@@ -44,8 +49,8 @@ p2=kam.x+16*kam.y=4+7*16
 promìna = bílá dáma = + dama = 5}
  TTah2=record {pouíván pøi vracení tahù}
        p1,p2:byte;
-       promena:shortint;
-       bere:shortint;{=co bylo na p2 pøed provedením tahu
+       promena:S1;
+       bere:S1;{=co bylo na p2 pøed provedením tahu
     pozor, braní mimochodem teï  není braní
     (nebo berocí pìšec jde na prázdné políèko)}
        stav:tstav;{stav pozice pøed tímto tahem}
@@ -58,8 +63,8 @@ type TTahy=record {struktura pro záznam více tahù z jedné pozice}
 {      stav:tstav}
      end;
 const
-  mat = 2147483645;
-  NeHodnota = -2147483647;
+  mat = High(THScore) - 2; // 2147483645;
+  NeHodnota = Low(THScore); // -2147483647;
 
   zakladni_postaveni:tpozice=
  (Sch:

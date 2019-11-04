@@ -3,6 +3,8 @@ unit uPartie;
 interface
 
 uses
+  uTypes,
+
   CoTy;
 
 type
@@ -22,7 +24,7 @@ type
     function PoloRemis(Partie: PJednoPartie; var Pozice: TPozice): Boolean;
 
   var
-    ClaimMoves: Integer;
+    ClaimMoves: UG;
 
 implementation
 
@@ -110,7 +112,7 @@ end;
 function PoloRemis(Partie: PJednoPartie; var Pozice: TPozice): Boolean;
 { Dochází v Partii k opakování poslední Pozice nebo aspoò k 50 tichým tahùm ? }
 var
-  th: shortint;
+  th: UG;
   pompos: TPozice;
 begin
   th := ClaimMoves;

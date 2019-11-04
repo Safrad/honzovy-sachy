@@ -29,43 +29,43 @@ type
       při každém volání myslící procedury (DejTah nebo MysliOTahDopredu). }
     // Hraji: TDejtahProc;
     FKnihovna: TKnihovna;
-    FRemisValue: Longint;
+    FRemisValue: THScore;
     FEngineOutput: TEngineOutput;
     FAnalysisInfo: TAnalysisInfo;
     FStopManager: TStopManager;
-    FAspirationWindowSize: LongInt;
+    FAspirationWindowSize: THScore;
     FOptions: TCommonEngineOptions;
     FRootMoves: TRootMoves;
     { Tuhle procedure zavolám když táhnu. Tato procedura by
       měla jen poslat zprávu na okno, v LParam bude zakódovaný tah. }
-    function Transformuj(co: longint): longint;
+    function Transformuj(co: THScore): THScore;
     { Převede hodnotu pozice tak aby z n. půltahem mat bylo (n+1). půltahem
       mat. Jinak by algoritmus nepreferoval vždy nejkratší cestu k vítězství. }
     function MusimKoncit: Boolean;
-    function Alfa_Beta(Alfa, Beta: longint; Hloubka: Integer;
+    function Alfa_Beta(Alfa, Beta: THScore; Hloubka: Integer;
       var Dojeto: Boolean; HloubkaRekurze: Integer;
-      var Nejlepsi: ShortString): longint;
+      var Nejlepsi: ShortString): THScore;
     { Alfa-beta metoda do zadané hloubky s dopočtem do tiché pozice
       s kaskádovitým průchodem a se zapamatováváním hodnot tahů vypočtených až
       do konce. }
-    function Alfa_Beta_Vrazi(Alfa, Beta: longint; Hloubka: Integer;
-      out Dojeto: Boolean; HloubkaRekurze: Integer): longint;
+    function Alfa_Beta_Vrazi(Alfa, Beta: THScore; Hloubka: Integer;
+      out Dojeto: Boolean; HloubkaRekurze: Integer): THScore;
     { Dopočet do tiché pozice, nejvýše však do zadané hloubky. Alfa-beta metoda
       s kaskádovitým průchodem a se zapamatováváním hodnot tahů vypočtených až
       do tichého konce. }
-    Procedure globBIterace(var MeziData: TMeziData; HorsiTahy: longint;
+    Procedure globBIterace(var MeziData: TMeziData; HorsiTahy: THScore;
       var Nejlepsi: ShortString);
-    Procedure globCIterace(var MeziData: TMeziData; HorsiTahy: longint;
+    Procedure globCIterace(var MeziData: TMeziData; HorsiTahy: THScore;
       var Nejlepsi: ShortString);
     Procedure VypisVariantu(Tah1: ttah1; PocPos: byte;
       Hloubka: Integer; const Index: Integer);
     Procedure VypisNejlepsi(const Tah1: ttah1; const Nejlepsi: string;
-      const Score: longint; const AScoreBound: TScoreBound);
+      const Score: THScore; const AScoreBound: TScoreBound);
     procedure SetEngineOutput(const Value: TEngineOutput);
     procedure writestrodsaz(co: string; odsaz: Integer);
-    procedure writeZacatekAlfaBeta(Alfa, Beta: longint;
+    procedure writeZacatekAlfaBeta(Alfa, Beta: THScore;
       Hloubka, HloubkaRekurze: Integer);
-    procedure writeZacatekAlfaBetaIterace(Alfa, Beta: longint;
+    procedure writeZacatekAlfaBetaIterace(Alfa, Beta: THScore;
       Hloubka, HloubkaRekurze: Integer);
     procedure writeZacatekIterace(var MeziData: TMeziData);
     procedure WriteDobryTah(var MeziData: TMeziData);
@@ -74,7 +74,7 @@ type
     procedure SetAnalysisInfo(const Value: TAnalysisInfo);
     procedure SetStopManager(const Value: TStopManager);
     procedure SetPozice(const Value: TPozice);
-    procedure SetAspirationWindowSize(const Value: LongInt);
+    procedure SetAspirationWindowSize(const Value: THScore);
     procedure SetOptions(const Value: TCommonEngineOptions);
     procedure SetRootMoves(const Value: TRootMoves);
   public
@@ -106,7 +106,7 @@ type
     property RootMoves: TRootMoves read FRootMoves write SetRootMoves;
 
     property Options: TCommonEngineOptions read FOptions write SetOptions;
-    property AspirationWindowSize: LongInt read FAspirationWindowSize write SetAspirationWindowSize;
+    property AspirationWindowSize: THScore read FAspirationWindowSize write SetAspirationWindowSize;
   end;
 
 implementation
@@ -118,11 +118,11 @@ uses
   Rutiny, Rychle, Ohodnoc, SysUtils, uStopCause;
 
 type
-  THodnotyTahu = array [1 .. maxtah] of longint;
+  THodnotyTahu = array [1 .. maxtah] of SG;
 const
   DetailedDebug = False;
 
-function HodnotaToStr(hodnota: longint): string;
+function HodnotaToStr(hodnota: THScore): string;
 begin
   if (hodnota < mat - 100) and (hodnota > 100 - mat) then
     result := IntToStr(hodnota)
@@ -160,7 +160,7 @@ begin
   end;
 end;
 
-function S4ToS2(const hodnota: Longint): SmallInt;
+function S4ToS2(const hodnota: THScore): S2;
 begin
   if hodnota = NeHodnota then
   begin
@@ -269,7 +269,7 @@ var
         (Dobrych = MeziDataJeho.Platnych) or
         (MeziDataJeho.Hodnoty[1] < -mat + 100) or
         (MeziDataJeho.Hodnoty[1] > mat - 100) or
-      { Musím si dávat pozor na přetečení LongIntu }
+      { Musím si dávat pozor na přetečení }
         (MeziDataJeho.Hodnoty[Dobrych + 1] < MeziDataJeho.Hodnoty[1] - AlgCfg.DoprHorsiTahy) or
         (MeziDataJeho.Hodnoty[Dobrych + 1] > MeziDataJeho.Hodnoty[1] + AlgCfg.DoprHorsiTahy);
       for K := 1 to Dobrych do
@@ -387,7 +387,7 @@ begin
 end;
 }
 Procedure TMyslitel.VypisNejlepsi(const Tah1: ttah1; const Nejlepsi: string;
-  const Score: longint; const AScoreBound: TScoreBound);
+  const Score: THScore; const AScoreBound: TScoreBound);
 var
   BestStatus: TSubtreeStatus;
   Moves: array of string;
@@ -415,7 +415,7 @@ begin
   { </Běžné výpisy> }
 end;
 
-Procedure TMyslitel.globBIterace(var MeziData: TMeziData; HorsiTahy: longint;
+Procedure TMyslitel.globBIterace(var MeziData: TMeziData; HorsiTahy: THScore;
   var Nejlepsi: ShortString);
 { Volat pouze hraje-li bílý.
   Provedení jedné iterace v Okénku (Alfa,Beta). }
@@ -424,9 +424,8 @@ var
   I, K: Integer;
   PocPos: byte;
   t2: ttah2;
-  { hodnota:LongInt; }
   PomTah: ttah1;
-  PomHodnota: longint;
+  PomHodnota: THScore;
   MoveStr: string;
 begin
   if MeziData.Dojeto then
@@ -581,7 +580,7 @@ begin
   pocitam[0] := AnsiChar(PocPos);
 end; { Konec BIterace }
 
-Procedure TMyslitel.globCIterace(var MeziData: TMeziData; HorsiTahy: longint;
+Procedure TMyslitel.globCIterace(var MeziData: TMeziData; HorsiTahy: THScore;
   var Nejlepsi: ShortString);
 { Volat pouze hraje-li černý.
   Provedení jedné iterace v Okénku (Alfa,Beta). }
@@ -591,7 +590,7 @@ var
   PocPos: byte;
   t2: ttah2;
   PomTah: ttah1;
-  PomHodnota: longint;
+  PomHodnota: THScore;
   MoveStr: string;
 begin
   if MeziData.Dojeto then
@@ -776,8 +775,8 @@ var
 var
   Dobrych: Integer;
   K: Integer;
-  RandomValue: LongInt;
-  Score: LongInt;
+  RandomValue: THScore;
+  Score: THScore;
 begin { DejTah }
   try
     if EngineOutput.DebugMode then
@@ -858,7 +857,7 @@ begin
   FAnalysisInfo := Value;
 end;
 
-procedure TMyslitel.SetAspirationWindowSize(const Value: LongInt);
+procedure TMyslitel.SetAspirationWindowSize(const Value: THScore);
 begin
   FAspirationWindowSize := Value;
   MeziVypocet.AspirationWindowSize := Value;
@@ -900,7 +899,7 @@ begin
   FStopManager := Value;
 end;
 
-function TMyslitel.Transformuj(co: longint): longint;
+function TMyslitel.Transformuj(co: THScore): THScore;
 begin
   if co = NeHodnota then
     result := NeHodnota
@@ -927,15 +926,15 @@ begin
   end;
 end;
 
-function TMyslitel.Alfa_Beta_Vrazi(Alfa, Beta: longint; Hloubka: Integer;
-  out Dojeto: Boolean; HloubkaRekurze: Integer): longint;
+function TMyslitel.Alfa_Beta_Vrazi(Alfa, Beta: THScore; Hloubka: Integer;
+  out Dojeto: Boolean; HloubkaRekurze: Integer): THScore;
 var
   Tahy: TTahy;
   t2: ttah2;
   pomtah1: ttah1;
   HodnotyTahu: THodnotyTahu;
   sach, Dj: Boolean;
-  hodnota, HodPos, sAlfa, sBeta, pomlongint: longint;
+  hodnota, HodPos, sAlfa, sBeta, pomlongint: THScore;
   h: Integer;
   I: byte;
 begin
@@ -1158,16 +1157,16 @@ end;
 { Od Alfa_Beta_Vrazi }
 
 { Ačkoliv jsem víceméně vyznavačem Pascalu, když vidím tolik endů za sebou... }
-function TMyslitel.Alfa_Beta(Alfa, Beta: longint; Hloubka: Integer;
+function TMyslitel.Alfa_Beta(Alfa, Beta: THScore; Hloubka: Integer;
   var Dojeto: Boolean; HloubkaRekurze: Integer;
-  var Nejlepsi: ShortString): longint;
+  var Nejlepsi: ShortString): THScore;
 var
   Tahy: TTahy;
   t2: ttah2;
   pomtah1: ttah1;
   HodnotyTahu: THodnotyTahu;
   sach, Dj: Boolean;
-  hodnota, sAlfa, sBeta, pomlongint: longint;
+  hodnota, sAlfa, sBeta, pomlongint: THScore;
   h: Integer;
   I, PocPos: byte;
   PomStr: ShortString;
@@ -1443,7 +1442,7 @@ begin
   EngineOutput.TellGUIDebug(s + co)
 end;
 
-procedure TMyslitel.writeZacatekAlfaBeta(Alfa, Beta: longint;
+procedure TMyslitel.writeZacatekAlfaBeta(Alfa, Beta: THScore;
   Hloubka, HloubkaRekurze: Integer);
 begin
   writestrodsaz('Alfa_Beta do hloubky ' + IntToStr(Hloubka + 1),
@@ -1452,7 +1451,7 @@ begin
     HloubkaRekurze + 2)
 end;
 
-procedure TMyslitel.writeZacatekAlfaBetaIterace(Alfa, Beta: longint;
+procedure TMyslitel.writeZacatekAlfaBetaIterace(Alfa, Beta: THScore;
   Hloubka, HloubkaRekurze: Integer);
 begin
   writestrodsaz('Iterace Alfa_Beta do hloubky ' + IntToStr(Hloubka + 1),

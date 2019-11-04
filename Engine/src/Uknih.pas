@@ -6,6 +6,8 @@ interface
 uses
   SysUtils,
 
+  uTypes,
+
   CoTy,
   uSxRandomGenerator;
 
@@ -38,8 +40,8 @@ type
     Zmeneno: boolean;
     KnihStrom: PKnihStrom;
     { Tady si to všechno pamatuji. }
-//    function PocetPozic: LongInt;
-    function HloubkaStromu: LongInt;
+//    function PocetPozic: UG;
+    function HloubkaStromu: SG;
     Constructor Create;
     Destructor Destroy; override;
     Procedure PridejData(var Data: TKnihData);
@@ -60,7 +62,7 @@ type
     { Vrátí v Data pointer na záznam s tahy z Pozice nebo Nil. }
     function DejTahy(var Pozice: TPozice; out Name: string): TTahy1;
     { To hlavní... Vrací false, není-li pozice v knihovnì }
-    procedure DejNTaData(n: LongInt; var Data: PKnihStrom);
+    procedure DejNTaData(n: SG; var Data: PKnihStrom);
     { Èíslováno od 1, je-li tam ménì záznamù, vrací nil }
     procedure mazej(var co: TPozice);
     // procedure uloz;
@@ -79,7 +81,7 @@ uses
 Procedure TKnihovna.DejData(var Pozice: TPozice; out Data: PKnihStrom);
 var
   pom: PKnihStrom;
-  i: integer;
+  i: SG;
 begin
   Data := nil;
   if KnihStrom = nil then
@@ -101,7 +103,7 @@ end;
 function TKnihovna.DejTahy(var Pozice: TPozice; out Name: string): TTahy1;
 var
   PodStrom: PKnihStrom;
-  i, tahu, offset: integer;
+  i, tahu, offset: SG;
   Tah1, LTah1: TTah1;
 begin
   DejData(Pozice, PodStrom);
@@ -110,7 +112,7 @@ begin
   begin
     Name := string(PodStrom^.Data.Nazev);
     tahu := 0;
-    FillChar(LTah1, SizeOf(LTah1), 0);
+    LTah1 := Default(TTah1);
     for i := 1 to MaxTahu do
     begin
       Tah1 := PodStrom^.Data.Tahy[i];
@@ -145,7 +147,7 @@ Procedure TKnihovna.PridejData(var Data: TKnihData);
 
 var
   pom: PKnihStrom;
-  i: integer;
+  i: SG;
 begin
   Zmeneno := true;
   Inc(FNodeCount);
@@ -201,7 +203,7 @@ Procedure TKnihovna.PridejTah(T1: ttah1; var Pozice: TPozice; text: string30);
 var
   Strom: PKnihStrom;
   Data: TKnihData;
-  i, j: integer;
+  i, j: SG;
   volno: boolean;
 begin
   Zmeneno := true;
@@ -260,7 +262,7 @@ begin
   KnihStrom := nil;
 end;
 
-procedure TKnihovna.DejNTaData(n: LongInt; var Data: PKnihStrom);
+procedure TKnihovna.DejNTaData(n: SG; var Data: PKnihStrom);
   procedure jedem(kde: PKnihStrom);
   begin
     if kde = nil then
@@ -304,7 +306,7 @@ procedure TKnihovna.mazej(var co: TPozice);
   end;
 
 var
-  i: integer;
+  i: SG;
   pom, pom2: P_PknihStrom;
 begin
   pom := @KnihStrom;
@@ -358,9 +360,9 @@ end;
 procedure TKnihovna.otevri(const AFileName: TFileName);
 var
   f: TFile;
-  procedure otvirej(a, b: LongInt);
+  procedure otvirej(a, b: SG);
   var
-    s: LongInt;
+    s: SG;
     Data: TKnihData;
   begin
     if a > b then
@@ -388,8 +390,8 @@ begin
   Zmeneno := false
 end;
 {
-function TKnihovna.PocetPozic: LongInt;
-  function PP(kde: PKnihStrom): LongInt;
+function TKnihovna.PocetPozic: UG;
+  function PP(kde: PKnihStrom): UG;
   begin
     if kde = nil then
       result := 0
@@ -401,10 +403,10 @@ begin
   result := PP(KnihStrom)
 end;
 }
-function TKnihovna.HloubkaStromu: LongInt;
-  function HS(kde: PKnihStrom): LongInt;
+function TKnihovna.HloubkaStromu: SG;
+  function HS(kde: PKnihStrom): SG;
   var
-    i, j: LongInt;
+    i, j: SG;
   begin
     if kde = nil then
       result := 0

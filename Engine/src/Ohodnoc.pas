@@ -4,11 +4,11 @@ interface
 
 uses Coty;
 
-function HodnotaPozice(const pos: tpozice): longint;
+function HodnotaPozice(const pos: tpozice): THScore;
 
 implementation
 
-uses myslitel;
+uses myslitel, uTypes;
 { Typy vybavení materiálem
 
   1) Hráè má alespoò
@@ -43,17 +43,20 @@ uses myslitel;
   Dùraz na postouplost pìšcù, z "ostatních" heuristik jen ty pìšcové.
 }
 
-function HodnotaPozice(const pos: tpozice): longint;
+function HodnotaPozice(const pos: tpozice): THScore;
+type
+  TPesci = array [0 .. 1, 0 .. 7] of U1;
+  TFigury = array [0 .. 1, 0 .. 7] of U1; // Optimization of [0 .. 1, 1 .. 5]
 var
-  x, y, b, i, j, c, kbx, kby, kcx, kcy: integer;
-  bm, cm, pom: longint;
-  pesci: array [0 .. 1, 0 .. 7] of byte;
-  figury: array [0 .. 1, 1 .. 5] of byte;
-  volny, kryty: boolean;
+  x, y, b, i, j, c, kbx, kby, kcx, kcy: SG;
+  bm, cm, pom: SG;
+  pesci: TPesci;
+  figury: TFigury;
+  volny, kryty: BG;
 begin
   result := 0;
-  fillchar(pesci, sizeof(pesci), 0);
-  fillchar(figury, sizeof(figury), 0);
+  pesci := Default(TPesci);
+  figury := Default(TFigury);
   { Nejprve si jenom zpoèítam figury a zjistím pozici obou králù }
   kbx := -128;
   kby := -128;
@@ -420,8 +423,8 @@ begin
   cm := 0;
   for i := 2 to 5 do
   begin
-    pom := figury[0, i]; { Pozor, tady mi pøetékal integer pøi násobení,
-      proto ty èachry s pom (to je totiž Longint) }
+    pom := figury[0, i]; { Pozor, tady mi pøetékalo 16 bitu pøi násobení,
+      proto ty èachry s pom (to je totiž 32 bitu) }
     pom := pom * AlgCfg.CenyFigur[i];
     bm := bm + pom;
     pom := figury[1, i];

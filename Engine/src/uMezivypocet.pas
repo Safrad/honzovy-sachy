@@ -7,7 +7,7 @@ uses
 
 type
   TMeziData = record
-    Alfa, Beta: longint;
+    Alfa, Beta: THScore;
     { Alfa a Beta PØED poèítáním prvního nedopoèteného tahu;
       Cena je hodnota posledního zlepšujícího tahu }
     Hloubka, I, Platnych: Integer;
@@ -18,7 +18,7 @@ type
     { Pozice, k níž vede tah uživatele, na který se pøipravuji }
     Tahy: TTahy; { Všechny tahy z pozice, dosavadní nejlepší je první,
       prvních Platnych je setøídìno podle výhodnosti. }
-    Hodnoty: array [1 .. maxtah] of longint;
+    Hodnoty: array [1 .. maxtah] of THScore;
   end;
 
   PMeziSeznam = ^TMeziSeznam;
@@ -32,8 +32,8 @@ type
 
   TMezivypocet = class
   private
-    FAspirationWindowSize: LongInt;
-    procedure SetAspirationWindowSize(const Value: LongInt);
+    FAspirationWindowSize: THScore;
+    procedure SetAspirationWindowSize(const Value: THScore);
   public
     Seznam: PMeziSeznam;
     procedure Pridej(var Data: TMeziData); { Inteligentnì pøidá do Seznamu
@@ -47,7 +47,7 @@ type
     procedure SmazSeznam;
     destructor Destroy; override;
 
-    property AspirationWindowSize: LongInt read FAspirationWindowSize write SetAspirationWindowSize;
+    property AspirationWindowSize: THScore read FAspirationWindowSize write SetAspirationWindowSize;
   end;
 
 implementation
@@ -116,7 +116,7 @@ begin
     Data := pom^.Data
 end;
 
-procedure TMezivypocet.SetAspirationWindowSize(const Value: LongInt);
+procedure TMezivypocet.SetAspirationWindowSize(const Value: THScore);
 begin
   FAspirationWindowSize := Value;
 end;

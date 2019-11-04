@@ -6,7 +6,10 @@ unit rychle;
 { obsahuje rychlé rutiny pro myslící algoritmus }
 interface
 
-uses coty;
+uses
+  uTypes,
+
+  coty;
 
 {$IFDEF LADIM}var
   BachaRekurze: boolean = false; {$ENDIF}
@@ -23,7 +26,7 @@ function stejne(var ta, tb: ttahy): boolean;
 function podmnoz(var ta, tb: ttahy): boolean;
 function stejnepos(var pa, pb: Tpozice): boolean;
 function SameTah1(const A, B: TTah1): Boolean;
-function CMPPozice(var P1, P2: TPozice): integer;
+function CMPPozice(var P1, P2: TPozice): SG;
 
 implementation
 
@@ -34,12 +37,12 @@ uses
 
   rutiny;
 
-procedure NapadVezi(x, y: shortint; var sch, vz: tsch);
+procedure NapadVezi(x, y: SG; var sch, vz: tsch);
 { oznaèí políèka, z nichž by vìž napadala [x,y] }
 var
-  i: shortint;
+  i: SG;
 begin
-  fillchar(vz, sizeof(vz), 0);
+  vz := Default(tsch);
   if x = -128 then
     Exit; {neni kral}
   for i := x + 1 to 7 do
@@ -68,11 +71,11 @@ begin
   end;
 end;
 
-procedure NapadStrelcem(x, y: shortint; var sch, vz: tsch);
+procedure NapadStrelcem(x, y: SG; var sch, vz: tsch);
 var
-  i, j: shortint;
+  i, j: SG;
 begin
-  fillchar(vz, sizeof(vz), 0);
+  vz := Default(tsch);
   if x = -128 then
     Exit; {neni kral}
   i := x + 1;
@@ -117,9 +120,9 @@ begin
   end;
 end;
 
-procedure NapadJezdcem(x, y: shortint; var vz: tsch);
+procedure NapadJezdcem(x, y: SG; var vz: tsch);
 begin
-  fillchar(vz, sizeof(vz), 0);
+  vz := Default(tsch);
   if x = -128 then
     Exit; {neni kral}
   if (x - 2 >= 0) and (y - 1 >= 0) then
@@ -140,15 +143,15 @@ begin
     vz[x + 2, y + 1] := 1;
 end;
 
-procedure vazby(x, y: shortint; var sch, vz: tsch);
+procedure vazby(x, y: SG; var sch, vz: tsch);
 { Zjistí, pozice figur vázaných soupeøem. V pozici sch na [x,y] stojí
   dùležitá král. (Hlavní motivace: zrychlení funkcí typu naleztahy
   v dùsledku úspory pøi testování šachu) }
 var
-  i, j, k, l, vx, vy: shortint;
-  v, dal: boolean;
+  i, j, k, l, vx, vy: SG;
+  v, dal: BG;
 begin
-  fillchar(vz, sizeof(vz), 0);
+  vz := Default(tsch);
   if x = -128 then
     Exit; {neni kral}
 
@@ -233,9 +236,9 @@ end;
   ************************************************************************ }
 function naleztahy(var pos: Tpozice; var tahy: ttahy): boolean;
 var
-  x, y, kx, ky: shortint;
+  x, y, kx, ky: SG;
   vz: tsch;
-  vrahu: integer;
+  vrahu: SG;
   { !!!!!!!!!!!!!!!!!! Zaøazovací rutiny pro naleztahy !!!!!!!!!!!!!!!!!!!!! }
   procedure ZarS(np1, np2: byte; npromena: shortint);
   var
@@ -321,9 +324,9 @@ var
         raise Exception.Create('Moc tahù v pozici');
   end;
 { !!!!!!!!!!!!!!!!!!!!!! Jezdící rutiny pro naleztahy !!!!!!!!!!!!!!!!!!!!! }
-  procedure JedS(dx, dy: shortint; bily: boolean);
+  procedure JedS(dx, dy: SG; bily: boolean);
   var
-    x1, y1: shortint;
+    x1, y1: SG;
   begin
     x1 := x;
     y1 := y;
@@ -339,9 +342,9 @@ var
         { Narazil na soupeøovu figuru. Mùže ji sebrat, ale za ni už táhnout nesmí }
     end
   end;
-  procedure JedBez(dx, dy: shortint; bily: boolean);
+  procedure JedBez(dx, dy: SG; bily: boolean);
   var
-    x1, y1: shortint;
+    x1, y1: SG;
   begin
     x1 := x;
     y1 := y;
@@ -360,7 +363,7 @@ var
 { !!!!!!!!!!!!!!!!!! Rutiny pro pro bílé figury s kontrolou !!!!!!!!!!!!!!! }
   procedure BPS;
   var
-    i: shortint;
+    i: SG;
   begin
     if (y < 6) then
     begin
@@ -424,7 +427,7 @@ var
   end;
   procedure BKS;
   var
-    i, j: shortint;
+    i, j: SG;
   begin
     for i := x - 1 to x + 1 do
       for j := y - 1 to y + 1 do
@@ -446,7 +449,7 @@ var
 { !!!!!!!!!!!!!!!!! Rutiny pro pro bílé figury bez kontroly !!!!!!!!!!!!!! }
   Procedure BPBez;
   var
-    i: shortint;
+    i: SG;
   begin
     if (y < 6) then
     begin
@@ -510,7 +513,7 @@ var
   end;
   procedure BKBez;
   var
-    i, j: shortint;
+    i, j: SG;
   begin
     for i := x - 1 to x + 1 do
       for j := y - 1 to y + 1 do
@@ -535,7 +538,7 @@ var
 { !!!!!!!!!!!!!!!!!! Rutiny pro pro èerné figury s kontrolou !!!!!!!!!!!!!!! }
   procedure CPS;
   var
-    i: shortint;
+    i: SG;
   begin
     if (y > 1) then
     begin
@@ -600,7 +603,7 @@ var
   end;
   procedure CKS;
   var
-    i, j: shortint;
+    i, j: SG;
   begin
     for i := x - 1 to x + 1 do
       for j := y - 1 to y + 1 do
@@ -622,7 +625,7 @@ var
 { !!!!!!!!!!!!!!!!! Rutiny pro pro èerné figury bez kontroly !!!!!!!!!!!!!! }
   Procedure CPBez;
   var
-    i: shortint;
+    i: SG;
   begin
     if (y > 1) then
     begin
@@ -686,7 +689,7 @@ var
   end;
   procedure CKBez;
   var
-    i, j: shortint;
+    i, j: SG;
   begin
     for i := x - 1 to x + 1 do
       for j := y - 1 to y + 1 do
@@ -863,7 +866,7 @@ END;
   ************************************************************************ }
 function nalezvrahy(var pos: Tpozice; var tahy: ttahy): boolean;
 var
-  x, y, kx, ky, kdx, kdy: shortint; { souøadnice cizího krále }
+  x, y, kx, ky, kdx, kdy: SG; { souøadnice cizího krále }
   vezi, jezdcem, strelcem, vz: tsch; { odkud bychom mohli dát šach }
   { !!!!!!!!!!!!!!!!!! Zaøazovací rutiny pro nalezvrahy !!!!!!!!!!!!!!!!!!!!! }
   procedure Zar(np1, np2: byte; npromena: shortint);
@@ -947,7 +950,7 @@ var
   end;
   Procedure BS;
   var
-    i, j: shortint;
+    i, j: SG;
   begin
     i := x;
     j := y;
@@ -1016,7 +1019,7 @@ var
   end;
   Procedure BV;
   var
-    i: shortint;
+    i: SG;
   begin
     for i := x + 1 to 7 do
       if pos.sch[i, y] > 0 then
@@ -1063,7 +1066,7 @@ var
   { nejde napsat BS;BV, protože dáma mùže táhout jako støelec a tím tahem
     dát šach jako vìž (nebo obrácenì) }
   var
-    i, j: shortint;
+    i, j: SG;
   begin
     for i := x + 1 to 7 do
       if pos.sch[i, y] > 0 then
@@ -1172,7 +1175,7 @@ var
   end;
   procedure BK;
   var
-    i, j: shortint;
+    i, j: SG;
   begin
     for i := x - 1 to x + 1 do
       for j := y - 1 to y + 1 do
@@ -1240,7 +1243,7 @@ var
   end;
   Procedure CS;
   var
-    i, j: shortint;
+    i, j: SG;
   begin
     i := x;
     j := y;
@@ -1309,7 +1312,7 @@ var
   end;
   Procedure CV;
   var
-    i: shortint;
+    i: SG;
   begin
     for i := x + 1 to 7 do
       if pos.sch[i, y] < 0 then
@@ -1356,7 +1359,7 @@ var
   { nejde napsat CS;CV, protože dáma mùže táhout jako støelec a tím tahem
     dát šach jako vìž (nebo obrácenì) }
   var
-    i, j: shortint;
+    i, j: SG;
   begin
     for i := x + 1 to 7 do
       if pos.sch[i, y] < 0 then
@@ -1466,7 +1469,7 @@ var
   end;
   procedure CK;
   var
-    i, j: shortint;
+    i, j: SG;
   begin
     for i := x - 1 to x + 1 do
       for j := y - 1 to y + 1 do
@@ -1596,7 +1599,7 @@ END;
   ************************************************************************ }
 function nalezbrani(var pos: Tpozice; var tahy: ttahy): boolean;
 var
-  x, y, kx, ky: shortint; { souøadnice cizího krále }
+  x, y, kx, ky: SG; { souøadnice cizího krále }
   vz: tsch; { odkud bychom mohli dát šach }
   { !!!!!!!!!!!!!!!!!! Zaøazovací rutiny pro nalezvrahy !!!!!!!!!!!!!!!!!!!!! }
   procedure Zar(np1, np2: byte; npromena: shortint);
@@ -1663,7 +1666,7 @@ var
   end;
   Procedure BS;
   var
-    i, j: shortint;
+    i, j: SG;
   begin
     i := x;
     j := y;
@@ -1724,7 +1727,7 @@ var
   end;
   Procedure BV;
   var
-    i: shortint;
+    i: SG;
   begin
     for i := x + 1 to 7 do
       if pos.sch[i, y] > 0 then
@@ -1766,7 +1769,7 @@ var
   end;
   procedure BK;
   var
-    i, j: shortint;
+    i, j: SG;
   begin
     for i := x - 1 to x + 1 do
       for j := y - 1 to y + 1 do
@@ -1819,7 +1822,7 @@ var
   end;
   Procedure CS;
   var
-    i, j: shortint;
+    i, j: SG;
   begin
     i := x;
     j := y;
@@ -1880,7 +1883,7 @@ var
   end;
   Procedure CV;
   var
-    i: shortint;
+    i: SG;
   begin
     for i := x + 1 to 7 do
       if pos.sch[i, y] < 0 then
@@ -1922,7 +1925,7 @@ var
   end;
   procedure CK;
   var
-    i, j: shortint;
+    i, j: SG;
   begin
     for i := x - 1 to x + 1 do
       for j := y - 1 to y + 1 do
@@ -2042,7 +2045,7 @@ END;
 
 function stejne(var ta, tb: ttahy): boolean;
 var
-  i: integer;
+  i: SG;
 begin
   result := True;
   if ta.poctah <> tb.poctah then
@@ -2060,7 +2063,7 @@ end;
 
 function podmnoz(var ta, tb: ttahy): boolean;
 var
-  i: integer;
+  i: SG;
 begin
   result := True;
   if ta.poctah > tb.poctah then
@@ -2086,11 +2089,11 @@ begin
   Result := (A.p1 = B.p1) and (A.p2 = B.p2) and (A.promena = B.promena);
 end;
 
-function CMPPozice(var P1, P2: TPozice): integer;
+function CMPPozice(var P1, P2: TPozice): SG;
 type
-  TPosPole = array [0 .. SizeOf(TPozice) - 1] of byte;
+  TPosPole = array [0 .. SizeOf(TPozice) - 1] of U1;
 var
-  i: integer; { vrací 1: P1>P2; 0: P1=P2; -1: P1<P2 }
+  i: SG; { vrací 1: P1>P2; 0: P1=P2; -1: P1<P2 }
 begin
   for i := 0 to SizeOf(TPozice) - 1 do
   begin

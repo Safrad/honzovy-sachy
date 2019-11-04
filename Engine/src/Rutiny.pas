@@ -17,7 +17,7 @@ procedure osekejtah(t2: ttah2; var t1: ttah1);
 procedure tahni(var pos: tpozice; t1: ttah1);
 { V pozici pos táhne }
 procedure tahni_zpet(var pos: tpozice; t2: ttah2);
-function ohrozeno(x, y: shortint; bilym: boolean; var sch: tsch): boolean;
+function ohrozeno(x, y: SG; bilym: boolean; var sch: tsch): boolean;
 { Napadá bílý políèko [x,y] ? }
 procedure naleztahy(var pos:tpozice;var tahy:ttahy);
 { Najde pøípustné tahy v pozici pos }
@@ -25,13 +25,13 @@ function jetam(tah1: ttah1; var tahy: ttahy): boolean;
 { obsahují tahy tah1 ? }
 function jetam1(odkud: byte; var tahy: ttahy): boolean;
 { obsahují tahy tah z pole odkud ? }
-function jetam2(kam: byte; kym: shortint; var tahy: ttahy; var pozice: tpozice;
+function jetam2(kam: byte; kym: SG; var tahy: ttahy; var pozice: tpozice;
   var tah1: ttah1): integer;
 { kolik tam je tahù kym na pole kam }
-function jetam3(kam, Sloupec: byte; kym: shortint; var tahy: ttahy;
+function jetam3(kam, Sloupec: byte; kym: SG; var tahy: ttahy;
   var pozice: tpozice; var tah1: ttah1): integer;
 { kolik tam je tahù kym ze Sloupce na pole kam }
-function jetam4(kam, Radek: byte; kym: shortint; var tahy: ttahy;
+function jetam4(kam, Radek: byte; kym: SG; var tahy: ttahy;
   var pozice: tpozice; var tah1: ttah1): integer;
 { kolik tam je tahù kym z Radku na pole kam }
 function sach(var sch: tsch; bily: boolean): boolean;
@@ -40,8 +40,8 @@ function sach(var sch: tsch; bily: boolean): boolean;
 //function remis(var pos: tpozice; partie: PJednoPartie): boolean;
 function trvalaa_zmena(var pos: tpozice; t2: ttah2): boolean;
 { Je právì zahraný tah t2 v pozici pos braní nebo tah pìšcem ? }
-function TTah1ToLongInt(co: ttah1): LongInt;
-function LongIntToTTah1(co: LongInt): ttah1;
+//function TTah1ToLongInt(co: ttah1): LongInt;
+//function LongIntToTTah1(co: LongInt): ttah1;
 //function TTah1ToStr(tah1: ttah1; var kde: TPozice): string;
 function TTah1ToLongStr(tah1: ttah1): string10;
 function StrToTTah1(const AText: string; const ASideToMove: SG): TTah1;
@@ -257,10 +257,10 @@ procedure naleztahy(var pos: tpozice; var tahy: ttahy);
       end; { else matpatdlg('Chyba, moc tah– !');{Víc tahù než je možné‚ }
     tahni_zpet(pos, t2)
   end;
-  procedure jed(x, y, dx, dy: shortint; bily: boolean);
+  procedure jed(x, y, dx, dy: SG; bily: boolean);
   var
-    x1, y1: shortint;
-    konec: boolean;
+    x1, y1: SG;
+    konec: BG;
   begin
     x1 := x;
     y1 := y;
@@ -280,7 +280,7 @@ procedure naleztahy(var pos: tpozice; var tahy: ttahy);
   end;
 
 var
-  x, y, i, j: shortint;
+  x, y, i, j: SG;
 begin
   { zaèátek tìla naleztahy }
   tahy.poctah := 0;
@@ -493,10 +493,10 @@ begin
   end
 end;
 
-function ohrozeno(x, y: shortint; bilym: boolean; var sch: tsch): boolean;
+function ohrozeno(x, y: SG; bilym: boolean; var sch: tsch): boolean;
 var
   oh: boolean;
-  procedure jed(x, y, dx, dy, f1, f2: shortint);
+  procedure jed(x, y, dx, dy, f1, f2: SG);
   begin
     x := x + dx;
     y := y + dy;
@@ -511,7 +511,7 @@ var
   end;
 
 var
-  i, j: shortint;
+  i, j: SG;
 begin
   oh := false;
   if bilym then
@@ -600,7 +600,7 @@ end;
 
 function sach(var sch: tsch; bily: boolean): boolean;
 var
-  kx, ky, y, x: shortint;
+  kx, ky, y, x: SG;
 begin
   Result := False;
   if bily then
@@ -649,7 +649,7 @@ begin
         jetam1 := true
 end;
 
-function jetam2(kam: byte; kym: shortint; var tahy: ttahy; var pozice: tpozice;
+function jetam2(kam: byte; kym: SG; var tahy: ttahy; var pozice: tpozice;
   var tah1: ttah1): integer;
 var
   i: integer;
@@ -664,7 +664,7 @@ begin
     end
 end;
 
-function jetam3(kam, Sloupec: byte; kym: shortint; var tahy: ttahy;
+function jetam3(kam, Sloupec: byte; kym: SG; var tahy: ttahy;
   var pozice: tpozice; var tah1: ttah1): integer;
 var
   i: integer;
@@ -679,7 +679,7 @@ begin
     end
 end;
 
-function jetam4(kam, Radek: byte; kym: shortint; var tahy: ttahy;
+function jetam4(kam, Radek: byte; kym: SG; var tahy: ttahy;
   var pozice: tpozice; var tah1: ttah1): integer;
 var
   i: integer;
@@ -723,7 +723,7 @@ end;
   end; }
 function rovna_se(pos1, pos2: tpozice): boolean;
 var
-  x, y: shortint;
+  x, y: SG;
 begin
   rovna_se := false;
   if (pos1.stav.b = pos2.stav.b) and (pos1.stav.mimoch = pos2.stav.mimoch) then
@@ -789,7 +789,7 @@ begin
   end;
 end;
 *)
-
+(*
 function TTah1ToLongInt(co: ttah1): LongInt;
 begin
   result := co.p1;
@@ -808,7 +808,7 @@ begin
   co := co shr 8;
   result.p1 := co and $FF;
 end;
-
+*)
 function PoleToStr(X, Y: byte): string2;
 begin
   result := AnsiChar(byte('a') + X) + AnsiChar(byte('1') + Y)
@@ -825,7 +825,7 @@ function jednoznacnost(tah1: ttah1; var Pozice: TPozice): byte;
 }
 var
   tahy: ttahy;
-  figura: shortint;
+  figura: S1;
   X, Y: Byte;
   i: Integer;
   celkem, radka, sloupec: boolean;
@@ -941,7 +941,7 @@ begin
     result := result + nazvy[abs(tah1.promena)];
 end;
 
-function FToS(const AFigure: Char): Shortint;
+function FToS(const AFigure: Char): S1;
 begin
   case AFigure of
   'q', 'Q': Result := dama;
@@ -991,7 +991,7 @@ var
 begin
 	Result := '';
   InLineIndex := 1;
-  FillChar(pos, Sizeof(pos), 0);
+  pos := Default(TPozice);
   pos.stav.mimoch := ne_mimochodem;
   ClaimMoves := 100;
 
