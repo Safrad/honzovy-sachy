@@ -8,7 +8,7 @@
         <AppType>Application</AppType>
         <FrameworkType>VCL</FrameworkType>
         <ProjectVersion>18.6</ProjectVersion>
-        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -67,16 +67,17 @@
         <SanitizedProjectName>HonzovySachy</SanitizedProjectName>
         <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;IW.Content;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_Locale>1029</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=SxSoft;FileDescription=;FileVersion=1.0.0.0;InternalName=HonzovySachy;LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=HonzovySachy.exe;ProductName=Honzovy Šachy;ProductVersion=1.0.0.0;Comments=;CFBundleName=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=SxSoft;FileDescription=Chess Engine;FileVersion=1.1.0.0;InternalName=HonzovySachy;LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=HonzovySachy.exe;ProductName=Honzovy Šachy;ProductVersion=1.1.0.0;Comments=;CFBundleName=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
         <DCC_ExeOutput>..\</DCC_ExeOutput>
         <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
-        <DCC_UnitSearchPath>..\..\..\Safrad\src\Protocols;..\..\..\Safrad\src\Protocols\UCI;..\..\..\Safrad\src\Protocols\WinBoard;..\..\..\Safrad\src\Protocols\Commands;..\..\..\Safrad\src\Protocols\Commands\UCI;..\..\..\Safrad\src\Protocols\Commands\WinBoard;..\..\..\SDG\src\engine;..\..\..\SDG\src;..\..\..\SDG\src\Levels;..\..\..\SDG\src\Variants\Generator;..\..\..\SDG\src\Variants;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>..\..\..\..\Safrad\Safrad\src\Protocols;..\..\..\..\Safrad\Safrad\src\Protocols\UCI;..\..\..\..\Safrad\Safrad\src\Protocols\WinBoard;..\..\..\..\Safrad\Safrad\src\Protocols\Commands;..\..\..\..\Safrad\Safrad\src\Protocols\Commands\UCI;..\..\..\..\Safrad\Safrad\src\Protocols\Commands\WinBoard;..\..\..\..\Safrad\SDG\src\engine;..\..\..\..\Safrad\SDG\src;..\..\..\..\Safrad\SDG\src\Levels;..\..\..\..\Safrad\SDG\src\Variants\Generator;..\..\..\..\Safrad\SDG\src\Variants;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_MinorVer>1</VerInfo_MinorVer>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
-        <VerInfo_Keys>CompanyName=SxSoft;FileDescription=;FileVersion=1.0.0.0;InternalName=$(MSBuildProjectName);LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=$(MSBuildProjectName).exe;ProductName=Honzovy Šachy;ProductVersion=1.0.0.0;Comments=;ProgramID=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=SxSoft;FileDescription=Chess Engine;FileVersion=1.1.0.0;InternalName=$(MSBuildProjectName);LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=$(MSBuildProjectName).exe;ProductName=Honzovy Šachy;ProductVersion=1.1.0.0;Comments=;ProgramID=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <Icon_MainIcon>HonzovySachy.ico</Icon_MainIcon>
@@ -90,7 +91,7 @@
         <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
-        <VerInfo_Keys>CompanyName=SxSoft;FileDescription=;FileVersion=1.0.0.0;InternalName=$(MSBuildProjectName);LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=$(MSBuildProjectName).exe;ProgramID=;ProductName=Honozvy Šachy;ProductVersion=1.0.0.0;Comments=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=SxSoft;FileDescription=Chess Engine;FileVersion=1.1.0.0;InternalName=$(MSBuildProjectName);LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=$(MSBuildProjectName).exe;ProgramID=;ProductName=Honozvy Šachy;ProductVersion=1.1.0.0;Comments=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>(None)</Manifest_File>
     </PropertyGroup>
@@ -103,20 +104,22 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <VerInfo_Keys>CompanyName=SxSoft;FileDescription=;FileVersion=1.0.0.0;InternalName=$(MSBuildProjectName);LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=$(MSBuildProjectName).exe;ProductName=Honzovy Šachy;ProductVersion=1.0.0.0;Comments=;ProgramID=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=SxSoft;FileDescription=Chess Engine;FileVersion=1.1.0.0;InternalName=$(MSBuildProjectName);LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=$(MSBuildProjectName).exe;ProductName=Honzovy Šachy;ProductVersion=1.1.0.0;Comments=;ProgramID=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
         <DCC_IOChecking>false</DCC_IOChecking>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_ImportedDataReferences>false</DCC_ImportedDataReferences>
         <AppDPIAwarenessMode>PerMonitor</AppDPIAwarenessMode>
         <DCC_AssertionsAtRuntime>false</DCC_AssertionsAtRuntime>
+        <Debugger_RunParams>-startup &quot;$commands.txt&quot;</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=SxSoft;FileDescription=;FileVersion=1.0.0.0;InternalName=$(MSBuildProjectName);LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=$(MSBuildProjectName).exe;ProgramID=;ProductName=Honzovy Šachy;ProductVersion=1.0.0.0;Comments=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=SxSoft;FileDescription=Chess Engine;FileVersion=1.1.0.0;InternalName=$(MSBuildProjectName);LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=$(MSBuildProjectName).exe;ProgramID=;ProductName=Honzovy Šachy;ProductVersion=1.1.0.0;Comments=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
         <DCC_Inlining>auto</DCC_Inlining>
         <DCC_IOChecking>false</DCC_IOChecking>
         <DCC_AssertionsAtRuntime>false</DCC_AssertionsAtRuntime>
         <DCC_ImportedDataReferences>false</DCC_ImportedDataReferences>
+        <Debugger_RunParams>-startup &quot;$commands.txt&quot;</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -127,7 +130,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
-        <VerInfo_Keys>CompanyName=SxSoft;FileDescription=;FileVersion=1.0.0.0;InternalName=$(MSBuildProjectName);LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=$(MSBuildProjectName).exe;ProductName=Honzovy Šachy;ProductVersion=1.0.0.0;Comments=;ProgramID=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=SxSoft;FileDescription=Chess Engine;FileVersion=1.1.0.0;InternalName=$(MSBuildProjectName);LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=$(MSBuildProjectName).exe;ProductName=Honzovy Šachy;ProductVersion=1.1.0.0;Comments=;ProgramID=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_IntegerOverflowCheck>true</DCC_IntegerOverflowCheck>
         <DCC_RangeChecking>true</DCC_RangeChecking>
@@ -135,7 +138,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=SxSoft;FileDescription=;FileVersion=1.0.0.0;InternalName=$(MSBuildProjectName);LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=HonzovySachy.exe;ProgramID=;ProductName=Honzovy Šachy;ProductVersion=1.0.0.0;Comments=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=SxSoft;FileDescription=;FileVersion=1.1.0.0;InternalName=$(MSBuildProjectName);LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=HonzovySachy.exe;ProgramID=;ProductName=Honzovy Šachy;ProductVersion=1.1.0.0;Comments=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
         <DCC_IntegerOverflowCheck>true</DCC_IntegerOverflowCheck>
         <DCC_RangeChecking>true</DCC_RangeChecking>
     </PropertyGroup>
@@ -211,6 +214,12 @@
                 </DeployFile>
                 <DeployFile LocalName="..\HonzovySachy.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
+                        <RemoteName>HonzovySachy.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="..\HonzovySachy.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win64">
                         <RemoteName>HonzovySachy.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
