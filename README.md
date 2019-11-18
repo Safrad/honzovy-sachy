@@ -1,4 +1,4 @@
-# Honzovy šachy
+# Honzovy Šachy
 Key            | Value
 -------------- | -------------
 Description    |Chess engine for Windows
@@ -8,10 +8,8 @@ E-Mail         |honzovy-sachy@seznam.cz
 Web            |https://sx.rosada.cz/projects/honzovy-sachy/
 License        |GNU GENERAL PUBLIC LICENSE (see the file "License.txt" for details)
 Created        |1998-03-01
-Modified       |2019-05-13
+Modified       |2019-11-18
 Online Version |https://lichess.org/@/honzovy-sachy
-Chess Rating   |About 1800 ELO on i7-8700 CPU.
-Algorithm      |Alpha-beta search algorithm futility pruning, killer heuristics.
 
 ------------
 Installation
@@ -26,7 +24,11 @@ Engine can be used with any UCI-compliant GUI (Graphical User Interface)
 ---------------
 Version History
 ---------------
-* Honzovy šachy 1.0 (2019-05-13)
+* Honzovy Šachy 2 (2019-11-18)
+  * protocol XBoard/UCI chess engine
+  * 32/64 bit Delphi/C version
+
+* Honzovy Šachy 1 (2019-05-13)
   * protocol XBoard/UCI chess engine
   * 32/64 bit Delphi version
 
