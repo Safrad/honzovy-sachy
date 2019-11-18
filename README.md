@@ -9,8 +9,7 @@ Web            |https://sx.rosada.cz/projects/honzovy-sachy/
 License        |GNU GENERAL PUBLIC LICENSE (see the file "License.txt" for details)
 Created        |1998-03-01
 Modified       |2019-11-18
-Online Versions|https://lichess.org/@/honzovy-sachy
-               |https://lichess.org/@/honzovy-sachy-2
+Online Versions|https://lichess.org/@/honzovy-sachy and https://lichess.org/@/honzovy-sachy-2
 
 ------------
 Installation
