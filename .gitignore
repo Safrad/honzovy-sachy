@@ -62,5 +62,12 @@ __history/
 __recovery/
 *.~*
 
+# Temporary files
+~*.*
+$*.*
+
 # Castalia statistics file (since XE7 Castalia is distributed with Delphi)
 *.stat
+
+# C++
+*.ilk
