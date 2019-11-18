@@ -508,7 +508,6 @@ begin
         MeziData.Alfa := MeziData.Beta - 1;
         MeziData.Beta := mat;
         pocitam[0] := AnsiChar(PocPos);
-        AnalysisInfo.BadMove := True;
         exit { Okénko moc dole }
       end; { od přelezení okénka }
       JeTah := true;
@@ -522,12 +521,6 @@ begin
           MeziData.Alfa := MeziData.Hodnoty[1]
         else if MeziData.Alfa < MeziData.Hodnoty[1] - HorsiTahy then
           MeziData.Alfa := MeziData.Hodnoty[1] - HorsiTahy;
-        if MeziData.I <> 1 then
-        begin
-          AnalysisInfo.ChangedMove := True;
-          if EngineOutput.DebugMode then
-            EngineOutput.TellGUIDebug('Best move is changed.');
-        end;
         { <Běžné výpisy> }
         VypisNejlepsi(MeziData.Tahy.t[1], string(Nejlepsi), MeziData.Hodnoty[1], sbExact);
         { </Běžné výpisy> }
@@ -674,7 +667,6 @@ begin
         MeziData.Beta := MeziData.Alfa + 1;
         MeziData.Alfa := -mat;
         pocitam[0] := AnsiChar(PocPos);
-        AnalysisInfo.BadMove := True;
         exit { Okénko moc nahoře }
       end; { od podlezení okénka }
       JeTah := true;
@@ -1294,7 +1286,6 @@ begin
               if hodnota > Alfa then
               begin
                 Alfa := hodnota;
-                // result := Alfa; TODO : not used
                 { <Ladící výpisy> }
                 if DetailedDebug and EngineOutput.DebugMode then
                   writeStrOdsaz('Zlepšující tah, Alfa=' + HodnotaToStr(Alfa), 3 + HloubkaRekurze);
@@ -1393,7 +1384,6 @@ begin
                 if DetailedDebug and EngineOutput.DebugMode then
                   writeStrOdsaz('Zlepšující tah, Beta=' + HodnotaToStr(Beta), 3 + HloubkaRekurze);
                 { </Ladící výpisy> }
-                //result := Beta; TODO : not used
                 if Alfa >= Beta then
                   if h = Hloubka - 1 then
                   begin
