@@ -23,13 +23,14 @@ type
     FEngineThread: TThread;
     FAspirationWindowSize: TNumericalIntervalArgument;
     procedure CreateOptions;
+    function GetPerftInternal(const AMaximalDepth: SG): U8;
   protected
     function GetRemainMoveCount: SG; override;
  	public
     constructor Create;
     destructor Destroy; override;
 
-    function GetPerft(const AMaximalDepth: SG): U8; override;
+    procedure GetPerft(const AMaximalDepth: SG); override;
     procedure DoMove(const AMove: string); override;
     procedure Undo; override;
     procedure SetPositionFromStringSpecific(const AString: string; out ASideToMove: SG); override;
@@ -48,6 +49,9 @@ uses
 	SysUtils,
 
   uNewThread,
+  uStopwatch,
+  uOutputFormat,
+  uMath,
 
   Rutiny,
   uMezivypocet;
@@ -115,8 +119,8 @@ begin
   FAspirationWindowSize.Shortcut := 'Aspiration Window Size';
   FAspirationWindowSize.Description := '[centi pawn] Aspiration Window Size.';
   FAspirationWindowSize.DefaultValue := 250; // cp
-  FAspirationWindowSize.NumericalInterval.MinimalValue :=  0;
-  FAspirationWindowSize.NumericalInterval.MaximalValue :=  10000;
+  FAspirationWindowSize.NumericalInterval.MinimalValue := 0;
+  FAspirationWindowSize.NumericalInterval.MaximalValue := 10000;
   FAspirationWindowSize.Value := FAspirationWindowSize.DefaultValue;
   Options.Add(FAspirationWindowSize);
 end;
@@ -163,9 +167,36 @@ begin
   Result := string(FMyslitel.pocitam);
 end;
 
-function THonzovySachyEngine.GetPerft(const AMaximalDepth: SG): U8;
+procedure THonzovySachyEngine.GetPerft(const AMaximalDepth: SG);
 var
   NodeCount: U8;
+  Stopwatch: TStopwatch;
+begin
+  Stopwatch := TStopwatch.Create;
+  try
+    Stopwatch.Start;
+
+    NodeCount := GetPerftInternal(AMaximalDepth);
+
+    Stopwatch.Stop;
+    if Terminated then
+    begin
+      Output.TellGUIInfo('Aborted')
+    end
+    else
+    begin
+      Output.TellGUIInfo('Nodes Searched: ' + NToS(NodeCount, ofIO));
+      if Stopwatch.Elapsed.Ticks > 0 then
+        Output.TellGUIInfo('Nodes/second: ' + NToS(RoundU8(NodeCount / Stopwatch.Elapsed.SecondsAsF)));
+    end;
+    Output.TellGUIInfo('Elapsed Time: ' + Stopwatch.Elapsed.ToStringInSeconds);
+  finally
+    Stopwatch.Free;
+  end;
+end;
+
+function THonzovySachyEngine.GetPerftInternal(const AMaximalDepth: SG): U8;
+var
   MeziData: TMeziData;
   I: SG;
   t1: TTah1;
@@ -185,8 +216,7 @@ begin
     DoplnTah(t1, FPozice, t2);
     tahni(FPozice, t1);
 
-    NodeCount := GetPerft(AMaximalDepth - 1);
-    Inc(Result, NodeCount);
+    Inc(Result, GetPerftInternal(AMaximalDepth - 1));
 
     tahni_zpet(FPozice, t2);
   end;
