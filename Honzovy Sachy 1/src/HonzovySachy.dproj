@@ -65,12 +65,11 @@
         <DCC_S>false</DCC_S>
         <DCC_ImageBase>00400000</DCC_ImageBase>
         <SanitizedProjectName>HonzovySachy</SanitizedProjectName>
-        <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;IW.Content;$(DCC_Namespace)</DCC_Namespace>
+        <DCC_Namespace>System;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_Locale>1029</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=SxSoft;FileDescription=Chess Engine;FileVersion=1.1.0.0;InternalName=HonzovySachy;LegalCopyright=Copyright © 1998 Jan Němec, Copyright © 2019;LegalTrademarks=;OriginalFilename=HonzovySachy.exe;ProductName=Honzovy Šachy;ProductVersion=1.1.0.0;Comments=;CFBundleName=;Author=Jan Němec, David Šafránek</VerInfo_Keys>
         <DCC_ExeOutput>..\</DCC_ExeOutput>
         <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
-        <DCC_UnitSearchPath>..\..\..\..\Safrad\Safrad\src\Protocols;..\..\..\..\Safrad\Safrad\src\Protocols\UCI;..\..\..\..\Safrad\Safrad\src\Protocols\WinBoard;..\..\..\..\Safrad\Safrad\src\Protocols\Commands;..\..\..\..\Safrad\Safrad\src\Protocols\Commands\UCI;..\..\..\..\Safrad\Safrad\src\Protocols\Commands\WinBoard;..\..\..\..\Safrad\SDG\src\engine;..\..\..\..\Safrad\SDG\src;..\..\..\..\Safrad\SDG\src\Levels;..\..\..\..\Safrad\SDG\src\Variants\Generator;..\..\..\..\Safrad\SDG\src\Variants;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_MinorVer>1</VerInfo_MinorVer>
     </PropertyGroup>
