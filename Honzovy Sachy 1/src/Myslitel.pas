@@ -4,17 +4,19 @@
 interface
 
 uses
-  coty,
-  uPartie,
-  uETypes,
-  uMezivypocet,
-  Uknih,
+  uSxRandomGenerator,
+
+  uScore,
   uEngineOutput,
   uCommonEngineOptions,
   uStopManager,
   uAnalysisInfo,
   uRootMoves,
-  uSxRandomGenerator;
+
+  coty,
+  uPartie,
+  uMezivypocet,
+  Uknih;
 
 type
   TMyslitel = class
@@ -112,10 +114,19 @@ type
 implementation
 
 uses
+  SysUtils,
+
   uTypes,
   uMath,
   uStrings,
-  Rutiny, Rychle, Ohodnoc, SysUtils, uStopCause;
+
+  uStopCause,
+  uSubtreeStatus,
+  uVariationCut,
+
+  Rutiny,
+  Rychle,
+  Ohodnoc;
 
 type
   THodnotyTahu = array [1 .. maxtah] of SG;
@@ -393,9 +404,10 @@ var
   Moves: array of string;
   InLineIndex: SG;
 begin
+  BestStatus := Default(TSubtreeStatus);
+
   BestStatus.Score := S4ToS2(Score);
   BestStatus.ScoreBound := AScoreBound;
-  BestStatus.VariationCut := vcNone;
   BestStatus.MoveCount := 1;
 
   SetLength(Moves, 1);
