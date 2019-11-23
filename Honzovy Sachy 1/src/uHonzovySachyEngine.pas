@@ -35,6 +35,7 @@ type
     procedure Undo; override;
     procedure SetPositionFromStringSpecific(const AString: string; out ASideToMove: SG); override;
     procedure SetStartPos; override;
+    procedure WriteBoardToConsole; override;
 
     function GetCurrentLine: string; override;
     procedure EngineStateToConsole; override;
@@ -54,6 +55,7 @@ uses
   uMath,
 
   Rutiny,
+  Sachovni,
   uMezivypocet;
 
 { THonzovySachyEngine }
@@ -270,6 +272,13 @@ begin
   end
   else
     Output.TellGUIError('No move for undo available.');
+end;
+
+procedure THonzovySachyEngine.WriteBoardToConsole;
+begin
+  inherited;
+
+  ZapisPozici(System.Output, FPozice);
 end;
 
 end.

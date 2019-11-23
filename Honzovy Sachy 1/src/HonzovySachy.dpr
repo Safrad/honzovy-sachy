@@ -12,7 +12,8 @@ uses
   Uknih in 'Uknih.pas',
   uHonzovySachyEngine in 'uHonzovySachyEngine.pas',
   uPartie in 'uPartie.pas',
-  uMezivypocet in 'uMezivypocet.pas';
+  uMezivypocet in 'uMezivypocet.pas',
+  Sachovni in 'Sachovni.pas';
 
 {$R *.RES}
 
