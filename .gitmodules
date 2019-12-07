@@ -4,3 +4,6 @@
 [submodule "Honzovy Sachy 2/src/Sx-Library"]
 	path = Honzovy Sachy 2/src/Sx-Library
 	url = https://github.com/Safrad/Sx-Library.git
+[submodule "Honzovy Sachy 2/src/pha"]
+	path = Honzovy Sachy 2/src/pha
+	url = https://github.com/honzour/pha.git
