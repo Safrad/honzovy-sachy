@@ -27,7 +27,8 @@ implementation
 uses
   uFiles,
   uProjectInfo,
-  uPlugin;
+  uPlugin,
+  uSystemPaths;
 
 { THonzovySachyEngine }
 
@@ -54,12 +55,13 @@ procedure THonzovySachyEngine.Initialize;
 begin
   inherited;
 
-  DllName := WorkDir + GetProjectInfo(piInternalName) + TPlugin.GetSuffix;
+  DllName := SystemPaths.WorkDir + GetProjectInfo(piInternalName) + TPlugin.GetSuffix;
 end;
 
 procedure THonzovySachyEngine.AddInternalOptions;
 begin
   Options.Add(CommonOptions.OwnBook);
+  Options.Add(CommonOptions.AutomaticHashSize);
   Options.Add(CommonOptions.HashSizeInMB);
   Options.Add(CommonOptions.ClearHash);
 end;
